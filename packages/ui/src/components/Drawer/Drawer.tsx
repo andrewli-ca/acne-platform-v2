@@ -32,6 +32,8 @@ export interface DrawerProps extends Omit<MantineDrawerProps, 'opened' | 'onClos
   closeOnFocusOutside?: boolean;
   /** Actions to render in the top right corner of the drawer */
   topRightActions?: ReactNode;
+  /** Test ID for UI testing */
+  testId?: string;
   /** Children to render inside the drawer */
   children: ReactNode;
 }
@@ -51,6 +53,7 @@ export function Drawer({
   children,
   closeOnFocusOutside = false,
   topRightActions,
+  testId,
   ...props
 }: DrawerProps) {
   const isSmallScreen = useMediaQuery('(max-width: 64em)'); // md breakpoint (breakpoint 3) and below
@@ -157,43 +160,52 @@ export function Drawer({
       padding={0}
       ref={drawerRef}
     >
-      {/* Resize handle - only visible on larger screens when not full width */}
-      {!isSmallScreen && !isFullWidth && (
-        <Box
-          ref={resizeHandleRef}
-          className={`${styles.resizeHandle} ${isResizing ? styles.resizing : ''}`}
-          onMouseDown={handleMouseDown}
-        />
-      )}
+      <div data-testid={testId}>
+        {/* Resize handle - only visible on larger screens when not full width */}
+        {!isSmallScreen && !isFullWidth && (
+          <Box
+            ref={resizeHandleRef}
+            className={`${styles.resizeHandle} ${isResizing ? styles.resizing : ''}`}
+            onMouseDown={handleMouseDown}
+          />
+        )}
 
-      {/* Header */}
-      <Flex align="center" justify="space-between" pos="sticky" top={0} bg="white">
-        <Group gap="xs">
-          {/* Full width button - only on larger screens */}
-          {!isSmallScreen && (
+        {/* Header */}
+        <Flex align="center" justify="space-between" pos="sticky" top={0} bg="white">
+          <Group gap="xs">
+            {/* Full width button - only on larger screens */}
+            {!isSmallScreen && (
+              <ActionIcon
+                variant="subtle"
+                color="gray"
+                onClick={handleFullWidth}
+                title={isFullWidth ? 'Restore default width' : 'Make full width'}
+                data-testid="expand-drawer-button"
+              >
+                <Maximize2 size={16} />
+              </ActionIcon>
+            )}
+
+            {/* Close button */}
             <ActionIcon
               variant="subtle"
               color="gray"
-              onClick={handleFullWidth}
-              title={isFullWidth ? 'Restore default width' : 'Make full width'}
+              onClick={onClose}
+              title="Close drawer"
+              data-testid="close-drawer-button"
             >
-              <Maximize2 size={16} />
+              <X size={16} />
             </ActionIcon>
-          )}
+          </Group>
+          {topRightActions}
+        </Flex>
 
-          {/* Close button */}
-          <ActionIcon variant="subtle" color="gray" onClick={onClose} title="Close drawer">
-            <X size={16} />
-          </ActionIcon>
-        </Group>
-        {topRightActions}
-      </Flex>
-
-      {/* Content */}
-      <Box px="md" pt="md">
-        {title && <Title order={4}>{title}</Title>}
-        {children}
-      </Box>
+        {/* Content */}
+        <Box px="md" pt="md">
+          {title && <Title order={4}>{title}</Title>}
+          {children}
+        </Box>
+      </div>
     </MantineDrawer>
   );
 }
