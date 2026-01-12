@@ -21,6 +21,7 @@
   "dependencies": {
     "@mantine/core": "8.3.12",
     "@mantine/hooks": "8.3.12",
+    "geist": "^1.5.1",
     "lucide-react": "^0.469.0"
   },
   "devDependencies": {
