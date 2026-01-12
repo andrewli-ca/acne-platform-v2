@@ -13,7 +13,8 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@acme/ui": ["./packages/ui/src/index.ts"]
+      "@acme/ui": ["./packages/ui/src/index.ts"],
+      "@acme/api": ["./packages/api/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "**/dist/**"]

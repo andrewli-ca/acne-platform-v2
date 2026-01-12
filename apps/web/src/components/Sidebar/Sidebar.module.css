@@ -1,0 +1,12 @@
+.sidebar {
+  width: 260px;
+  min-height: 100vh;
+  padding: 1rem;
+  background: var(--mantine-color-body);
+  border-right: 1px solid var(--mantine-color-gray-3);
+}
+
+.brand {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}

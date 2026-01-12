@@ -29,7 +29,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@test-utils": ["./test-utils"],
-      "@acme/ui": ["../../packages/ui/src/index.ts"]
+      "@acme/ui": ["../../packages/ui/src/index.ts"],
+      "@acme/api": ["../../packages/api/src/index.ts"]
     },
 
     /* Plugins */
