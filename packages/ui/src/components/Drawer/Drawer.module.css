@@ -1,0 +1,15 @@
+.resizeHandle {
+  position: absolute;
+  left: -5px;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  z-index: 10;
+  background: transparent;
+  cursor: ew-resize;
+  transition: background 0.2s;
+}
+
+.resizeHandle.resizing {
+  cursor: col-resize;
+}
