@@ -11,6 +11,8 @@ export { DataDialog } from './components/DataDialog';
 export type { DataDialogProps } from './components/DataDialog';
 export { FeatureCard } from './components/FeatureCard';
 export type { FeatureCardProps } from './components/FeatureCard';
+export { TestButton } from './components/TestButton';
+export type { TestButtonProps } from './components/TestButton';
 
 // Re-export Mantine primitives for layout and typography
 export {
