@@ -1,8 +1,8 @@
 import '@mantine/core/styles.css';
 
 import type { ReactNode } from 'react';
-import { MantineProvider } from '@mantine/core';
-import type { MantineThemeOverride } from '@mantine/core';
+
+import { MantineProvider, type MantineThemeOverride } from '@mantine/core';
 
 export interface ThemeProviderProps {
   children: ReactNode;

@@ -1,13 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { Title, Flex, Box, SimpleGrid, FeatureCard } from '@acme/ui';
-import {
-  LayoutDashboard,
-  CreditCard,
-  Shield,
-  Zap,
-  Users,
-  BarChart3,
-} from 'lucide-react';
+import { BarChart3, CreditCard, LayoutDashboard, Shield, Users, Zap } from 'lucide-react';
+
+import { Box, FeatureCard, Flex, SimpleGrid, Title } from '@acme/ui';
 
 export const Route = createFileRoute('/_auth/features')({
   component: FeaturesPage,
@@ -16,36 +10,31 @@ export const Route = createFileRoute('/_auth/features')({
 const features = [
   {
     title: 'Real-time Dashboard',
-    description:
-      'Monitor your key metrics in real-time with our comprehensive dashboard.',
+    description: 'Monitor your key metrics in real-time with our comprehensive dashboard.',
     icon: <LayoutDashboard size={24} />,
     color: 'blue',
   },
   {
     title: 'Transaction Management',
-    description:
-      'Track and manage all your transactions with detailed filtering and search.',
+    description: 'Track and manage all your transactions with detailed filtering and search.',
     icon: <CreditCard size={24} />,
     color: 'green',
   },
   {
     title: 'Secure Authentication',
-    description:
-      'Enterprise-grade security with multi-factor authentication support.',
+    description: 'Enterprise-grade security with multi-factor authentication support.',
     icon: <Shield size={24} />,
     color: 'violet',
   },
   {
     title: 'Lightning Fast',
-    description:
-      'Optimized performance with automatic code-splitting and prefetching.',
+    description: 'Optimized performance with automatic code-splitting and prefetching.',
     icon: <Zap size={24} />,
     color: 'yellow',
   },
   {
     title: 'Team Collaboration',
-    description:
-      'Invite team members and collaborate with role-based access control.',
+    description: 'Invite team members and collaborate with role-based access control.',
     icon: <Users size={24} />,
     color: 'cyan',
   },

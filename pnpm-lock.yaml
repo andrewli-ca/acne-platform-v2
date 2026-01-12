@@ -17,6 +17,9 @@ importers:
       '@acme/api':
         specifier: workspace:*
         version: link:../../packages/api
+      '@acme/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@acme/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -87,6 +90,9 @@ importers:
       eslint-plugin-react:
         specifier: ^7.37.5
         version: 7.37.5(eslint@9.39.2)
+      eslint-plugin-react-hooks:
+        specifier: ^5.1.0
+        version: 5.2.0(eslint@9.39.2)
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
@@ -134,13 +140,56 @@ importers:
         version: 4.0.17(@types/node@25.0.6)(jsdom@27.4.0)(less@4.5.1)(sass@1.97.2)(stylus@0.62.0)(sugarss@5.0.1(postcss@8.5.6))(tsx@4.21.0)
 
   packages/api:
+    dependencies:
+      '@acme/config':
+        specifier: workspace:*
+        version: link:../config
     devDependencies:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
 
+  packages/config:
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.37.0
+        version: 9.39.2
+      '@ianvs/prettier-plugin-sort-imports':
+        specifier: ^4.7.0
+        version: 4.7.0(prettier@3.7.4)
+      eslint:
+        specifier: ^9.37.0
+        version: 9.39.2
+      eslint-config-mantine:
+        specifier: ^4.0.3
+        version: 4.0.3(@eslint/js@9.39.2)(eslint-plugin-jsx-a11y@6.10.2(eslint@9.39.2))(eslint-plugin-react@7.37.5(eslint@9.39.2))(eslint@9.39.2)(typescript-eslint@8.53.0(eslint@9.39.2)(typescript@5.9.3))
+      eslint-plugin-jsx-a11y:
+        specifier: ^6.10.2
+        version: 6.10.2(eslint@9.39.2)
+      eslint-plugin-react:
+        specifier: ^7.37.5
+        version: 7.37.5(eslint@9.39.2)
+      prettier:
+        specifier: ^3.6.2
+        version: 3.7.4
+      stylelint:
+        specifier: ^16.25.0
+        version: 16.26.1(typescript@5.9.3)
+      stylelint-config-standard-scss:
+        specifier: ^16.0.0
+        version: 16.0.0(postcss@8.5.6)(stylelint@16.26.1(typescript@5.9.3))
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      typescript-eslint:
+        specifier: ^8.46.0
+        version: 8.53.0(eslint@9.39.2)(typescript@5.9.3)
+
   packages/ui:
     dependencies:
+      '@acme/config':
+        specifier: workspace:*
+        version: link:../config
       '@mantine/core':
         specifier: 8.3.12
         version: 8.3.12(@mantine/hooks@8.3.12(react@19.2.3))(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -178,6 +227,12 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^5.0.4
         version: 5.1.2(vite@7.3.1(@types/node@25.0.6)(less@4.5.1)(sass@1.97.2)(stylus@0.62.0)(sugarss@5.0.1(postcss@8.5.6))(tsx@4.21.0))
+      eslint:
+        specifier: ^9.37.0
+        version: 9.39.2
+      eslint-plugin-react-hooks:
+        specifier: ^5.1.0
+        version: 5.2.0(eslint@9.39.2)
       prettier:
         specifier: ^3.6.2
         version: 3.7.4
@@ -1709,6 +1764,12 @@ packages:
     engines: {node: '>=4.0'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9
+
+  eslint-plugin-react-hooks@5.2.0:
+    resolution: {integrity: sha512-+f15FfK64YQwZdJNELETdn5ibXEUQmW1DZL6KXhNnc2heoy/sg9VJJeT7n8TlMWouzWqSWavFkIhHyIbIAEapg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
 
   eslint-plugin-react@7.37.5:
     resolution: {integrity: sha512-Qteup0SqU15kdocexFNAJMvCJEfa2xUKNV4CC1xsVMrIIqEy3SQ/rqyxCWNzfrd3/ldy6HMlD2e0JDVpDg2qIA==}
@@ -5020,6 +5081,10 @@ snapshots:
       object.fromentries: 2.0.8
       safe-regex-test: 1.1.0
       string.prototype.includes: 2.0.1
+
+  eslint-plugin-react-hooks@5.2.0(eslint@9.39.2):
+    dependencies:
+      eslint: 9.39.2
 
   eslint-plugin-react@7.37.5(eslint@9.39.2):
     dependencies:

@@ -1,0 +1,48 @@
+{
+  "name": "@acme/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared configuration for linting, formatting, and TypeScript",
+  "exports": {
+    "./eslint/base": "./eslint/base.js",
+    "./eslint/react": "./eslint/react.js",
+    "./eslint/library": "./eslint/library.js",
+    "./typescript/base": "./typescript/base.json",
+    "./typescript/react": "./typescript/react.json",
+    "./typescript/library": "./typescript/library.json",
+    "./prettier": "./prettier/index.mjs",
+    "./stylelint": "./stylelint/index.json"
+  },
+  "files": [
+    "eslint",
+    "typescript",
+    "prettier",
+    "stylelint"
+  ],
+  "scripts": {
+    "typecheck": "echo 'No typecheck needed for config package'",
+    "lint": "echo 'No linting needed for config package'",
+    "test": "echo 'No tests needed for config package'",
+    "build": "echo 'No build needed for config package'"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "eslint": "^9.37.0",
+    "eslint-config-mantine": "^4.0.3",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "prettier": "^3.6.2",
+    "stylelint": "^16.25.0",
+    "stylelint-config-standard-scss": "^16.0.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0"
+  },
+  "peerDependencies": {
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "stylelint": "^16.0.0",
+    "typescript": "^5.0.0"
+  }
+}

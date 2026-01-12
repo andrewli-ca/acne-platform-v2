@@ -1,16 +1,8 @@
-import mantine from 'eslint-config-mantine';
-import { defineConfig } from 'eslint/config';
-import tseslint from 'typescript-eslint';
+import acmeReactConfig from '@acme/config/eslint/react';
 
 // @ts-check
-export default defineConfig(
-  tseslint.configs.recommended,
-  ...mantine,
-  { ignores: ['**/*.{mjs,cjs,js,d.ts,d.mts}'] },
-  {
-    files: ['**/*.story.tsx'],
-    rules: { 'no-console': 'off' },
-  },
+export default [
+  ...acmeReactConfig,
   {
     languageOptions: {
       parserOptions: {
@@ -18,5 +10,5 @@ export default defineConfig(
         tsconfigRootDir: process.cwd(),
       },
     },
-  }
-);
+  },
+];

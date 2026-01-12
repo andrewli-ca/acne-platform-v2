@@ -1,7 +1,9 @@
 import { Link, useLocation } from '@tanstack/react-router';
-import { Stack, Text, NavLink, Box } from '@acme/ui';
-import { LayoutDashboard, CreditCard, Sparkles, LogOut } from 'lucide-react';
+import { CreditCard, LayoutDashboard, LogOut, Sparkles } from 'lucide-react';
+
 import { mockClient } from '@acme/api';
+import { Box, NavLink, Stack, Text } from '@acme/ui';
+
 import styles from './Sidebar.module.css';
 
 const navItems = [

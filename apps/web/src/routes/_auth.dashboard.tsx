@@ -1,8 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense } from 'react';
-import { SimpleGrid, Title, Flex, Box } from '@acme/ui';
-import { StatCard } from '@acme/ui';
+
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
+
+import { Box, Flex, SimpleGrid, StatCard, Title } from '@acme/ui';
+
 import { DashboardSkeleton } from '@/components/DashboardSkeleton';
 import { dashboardQueryOptions } from '@/queries/dashboard';
 

@@ -1,17 +1,9 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
+
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+
 import { mockClient } from '@acme/api';
-import {
-  Card,
-  Flex,
-  Text,
-  Button,
-  Title,
-  Box,
-  TextInput,
-  PasswordInput,
-  Stack,
-} from '@acme/ui';
+import { Box, Button, Card, Flex, PasswordInput, Stack, Text, TextInput, Title } from '@acme/ui';
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,

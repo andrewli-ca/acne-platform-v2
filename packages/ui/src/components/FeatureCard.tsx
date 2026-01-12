@@ -1,5 +1,6 @@
-import { Card, Flex, Text, Title, ThemeIcon } from '@mantine/core';
 import type { ReactNode } from 'react';
+
+import { Card, Flex, Text, ThemeIcon, Title } from '@mantine/core';
 
 export interface FeatureCardProps {
   title: string;
@@ -12,12 +13,7 @@ export interface FeatureCardProps {
  * FeatureCard component for showcasing features
  * Displays an icon, title, and description
  */
-export function FeatureCard({
-  title,
-  description,
-  icon,
-  color = 'blue',
-}: FeatureCardProps) {
+export function FeatureCard({ title, description, icon, color = 'blue' }: FeatureCardProps) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Flex direction="column" gap="md">

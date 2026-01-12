@@ -1,4 +1,4 @@
-import { SimpleGrid, Skeleton, Card, Stack } from '@acme/ui';
+import { Card, SimpleGrid, Skeleton, Stack } from '@acme/ui';
 
 export function DashboardSkeleton() {
   return (

@@ -1,18 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense, useState } from 'react';
-import {
-  Title,
-  Flex,
-  Box,
-  Table,
-  Badge,
-  Button,
-  Text,
-  Stack,
-  DataDialog,
-} from '@acme/ui';
+
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
+
 import type { Transaction } from '@acme/api';
+import { Badge, Box, Button, DataDialog, Flex, Stack, Table, Text, Title } from '@acme/ui';
+
 import { TableSkeleton } from '@/components/TableSkeleton';
 import { transactionsQueryOptions } from '@/queries/transactions';
 
@@ -46,8 +39,7 @@ function getStatusColor(status: Transaction['status']): string {
 
 function TransactionsContent() {
   const { data: transactions } = useSuspenseQuery(transactionsQueryOptions);
-  const [selectedTransaction, setSelectedTransaction] =
-    useState<Transaction | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
   return (
     <>
@@ -118,10 +110,7 @@ function TransactionsContent() {
             </Flex>
             <Flex justify="space-between">
               <Text fw={500}>Status:</Text>
-              <Badge
-                color={getStatusColor(selectedTransaction.status)}
-                variant="light"
-              >
+              <Badge color={getStatusColor(selectedTransaction.status)} variant="light">
                 {selectedTransaction.status}
               </Badge>
             </Flex>
