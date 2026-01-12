@@ -1,5 +1,6 @@
-import { Group, Avatar, Text, Box } from '@acme/ui';
 import { mockClient } from '@acme/api';
+import { Avatar, Box, Group, Text } from '@acme/ui';
+
 import styles from './Topbar.module.css';
 
 export function Topbar() {

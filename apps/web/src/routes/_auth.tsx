@@ -1,6 +1,8 @@
-import { createFileRoute, redirect, Outlet } from '@tanstack/react-router';
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
 import { mockClient } from '@acme/api';
-import { Flex, Box } from '@acme/ui';
+import { Box, Flex } from '@acme/ui';
+
 import { Sidebar } from '@/components/Sidebar';
 import { Topbar } from '@/components/Topbar';
 

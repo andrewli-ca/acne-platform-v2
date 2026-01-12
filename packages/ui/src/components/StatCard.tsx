@@ -1,6 +1,8 @@
-import { Card, Flex, Text, Badge } from '@mantine/core';
-import { TrendingUp, TrendingDown } from 'lucide-react';
 import type { ReactNode } from 'react';
+
+import { TrendingDown, TrendingUp } from 'lucide-react';
+
+import { Badge, Card, Flex, Text } from '@mantine/core';
 
 export interface StatCardProps {
   label: string;
@@ -14,13 +16,7 @@ export interface StatCardProps {
  * StatCard component for displaying dashboard metrics
  * Shows a label, value, and optional trend indicator
  */
-export function StatCard({
-  label,
-  value,
-  trend,
-  trendDirection,
-  icon,
-}: StatCardProps) {
+export function StatCard({ label, value, trend, trendDirection, icon }: StatCardProps) {
   const TrendIcon = trendDirection === 'up' ? TrendingUp : TrendingDown;
   const trendColor = trendDirection === 'up' ? 'green' : 'red';
 

@@ -4,24 +4,24 @@
     "custom-property-pattern": null,
     "selector-class-pattern": null,
     "scss/no-duplicate-mixins": null,
+    "scss/at-mixin-pattern": null,
+    "scss/at-rule-no-unknown": null,
     "declaration-empty-line-before": null,
     "declaration-block-no-redundant-longhand-properties": null,
-    "alpha-value-notation": null,
     "custom-property-empty-line-before": null,
+    "comment-empty-line-before": null,
+    "alpha-value-notation": null,
     "property-no-vendor-prefix": null,
     "color-function-notation": null,
     "length-zero-no-unit": null,
     "selector-not-notation": null,
     "no-descending-specificity": null,
-    "comment-empty-line-before": null,
-    "scss/at-mixin-pattern": null,
-    "scss/at-rule-no-unknown": null,
     "value-keyword-case": null,
     "media-feature-range-notation": null,
     "selector-pseudo-class-no-unknown": [
       true,
       {
-        "ignorePseudoClasses": ["global"]
+        "ignorePseudoClasses": ["global", "local"]
       }
     ]
   }

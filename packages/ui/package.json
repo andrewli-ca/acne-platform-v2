@@ -11,6 +11,11 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "lint": "eslint src --cache",
+    "prettier": "prettier --check 'src/**/*.{ts,tsx}'",
+    "prettier:write": "prettier --write 'src/**/*.{ts,tsx}'",
+    "test": "echo 'No tests configured'",
+    "build": "echo 'No build configured'",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build"
   },
@@ -19,6 +24,7 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
+    "@acme/config": "workspace:*",
     "@mantine/core": "8.3.12",
     "@mantine/hooks": "8.3.12",
     "geist": "^1.5.1",
@@ -32,6 +38,8 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react": "^5.0.4",
+    "eslint": "^9.37.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "prettier": "^3.6.2",
     "prop-types": "^15.8.1",
     "storybook": "^10.0.0",

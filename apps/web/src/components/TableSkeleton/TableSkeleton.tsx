@@ -1,4 +1,4 @@
-import { Table, Skeleton } from '@acme/ui';
+import { Skeleton, Table } from '@acme/ui';
 
 export function TableSkeleton() {
   return (

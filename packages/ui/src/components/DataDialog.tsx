@@ -1,5 +1,6 @@
-import { Modal, Text, Title } from '@mantine/core';
 import type { ReactNode } from 'react';
+
+import { Modal, Text, Title } from '@mantine/core';
 
 export interface DataDialogProps {
   open: boolean;
@@ -13,13 +14,7 @@ export interface DataDialogProps {
  * DataDialog component for displaying detailed data in a modal
  * Wraps Mantine Modal with a consistent API
  */
-export function DataDialog({
-  open,
-  onOpenChange,
-  title,
-  description,
-  children,
-}: DataDialogProps) {
+export function DataDialog({ open, onOpenChange, title, description, children }: DataDialogProps) {
   return (
     <Modal
       opened={open}
