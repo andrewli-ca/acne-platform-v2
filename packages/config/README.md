@@ -1,6 +1,6 @@
 # @acme/config
 
-Shared configuration for all packages in the acne-platform-v2 monorepo.
+Shared configuration for all packages in the acme-platform-v2 monorepo.
 
 ## Available Configs
 
