@@ -1,5 +1,12 @@
-import type { MantineThemeOverride } from '@mantine/core';
-import { Card, Container, createTheme, Paper, rem, Select } from '@mantine/core';
+import {
+  Card,
+  Container,
+  createTheme,
+  Paper,
+  rem,
+  Select,
+  type MantineThemeOverride,
+} from '@mantine/core';
 
 const CONTAINER_SIZES: Record<string, string> = {
   xxs: rem('200px'),
@@ -19,6 +26,15 @@ export const mantineTheme: MantineThemeOverride = createTheme({
   headings: {
     fontFamily:
       '"Geist Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  },
+  breakpoints: {
+    xxs: '20em',
+    xs: '30em',
+    sm: '48em',
+    md: '64em',
+    lg: '72em',
+    xl: '80em',
+    xxl: '90em',
   },
   fontSizes: {
     xs: rem('12px'),

@@ -1,5 +1,5 @@
 ---
-description: 'Core development standards for package management, styling, routing, monorepo structure, and performance optimization'
+description: "Core development standards for package management, styling, routing, monorepo structure, and performance optimization"
 alwaysApply: true
 ---
 
@@ -30,8 +30,8 @@ alwaysApply: true
 
 1. **The `@acme/ui` Gatekeeper:**
    - Always import UI components, layout primitives (`Flex`, `Text`, `Box`, `Grid`), and the `Theme` from the `@acme/ui` package.
-   - **DO NOT** import directly from `@radix-ui/themes` within the application code (`apps/dashboard`).
-   - If a Radix primitive or component is missing from `@acme/ui/src/index.ts`, **you must export it there first** before using it in the app.
+   - **DO NOT** import directly from Mantine within the application code (`apps/dashboard`).
+   - If a Mantine primitive or component is missing from `@acme/ui/src/index.ts`, **you must export it there first** before using it in the app.
 
 2. **Explicit Named Exports:**
    - `packages/ui` and `packages/api` MUST use **explicit named exports** in their `index.ts` files.
