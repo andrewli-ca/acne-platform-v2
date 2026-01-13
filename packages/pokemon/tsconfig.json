@@ -1,0 +1,8 @@
+{
+  "extends": "@acme/config/typescript/library",
+  "compilerOptions": {
+    "useDefineForClassFields": true,
+    "erasableSyntaxOnly": true
+  },
+  "include": ["src"]
+}
