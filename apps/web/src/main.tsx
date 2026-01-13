@@ -26,6 +26,9 @@ const router = createRouter({
     queryClient,
   },
   defaultPreload: 'intent',
+  defaultPreloadDelay: 100,
+  defaultPendingMs: 1000,
+  defaultPendingMinMs: 500,
 });
 
 // Register router for type safety

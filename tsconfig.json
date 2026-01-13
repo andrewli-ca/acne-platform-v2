@@ -1,10 +1,13 @@
 {
-  "extends": "@acme/config/typescript/base",
+  "extends": "./packages/config/typescript/base.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@acme/ui": ["./packages/ui/src/index.ts"],
-      "@acme/api": ["./packages/api/src/index.ts"]
+      "@acme/api": ["./packages/api/src/index.ts"],
+      "@acme/countries": ["./packages/countries/src/index.ts"],
+      "@acme/pokemon": ["./packages/pokemon/src/index.ts"],
+      "@acme/http-client": ["./packages/http-client/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "**/dist/**"]
