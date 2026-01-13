@@ -13,6 +13,8 @@ export { FeatureCard } from './components/FeatureCard';
 export type { FeatureCardProps } from './components/FeatureCard';
 export { StatCard } from './components/StatCard';
 export type { StatCardProps } from './components/StatCard';
+export { ThemeSwitcher } from './components/ThemeSwitcher';
+export type { ThemeSwitcherProps } from './components/ThemeSwitcher';
 
 // Re-export Mantine primitives for layout and typography
 export {
