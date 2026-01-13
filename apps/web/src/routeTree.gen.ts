@@ -13,8 +13,10 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthTransactionsRouteImport } from './routes/_auth.transactions'
+import { Route as AuthPokemonRouteImport } from './routes/_auth.pokemon'
 import { Route as AuthFeaturesRouteImport } from './routes/_auth.features'
 import { Route as AuthDashboardRouteImport } from './routes/_auth.dashboard'
+import { Route as AuthCountriesRouteImport } from './routes/_auth.countries'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -35,6 +37,11 @@ const AuthTransactionsRoute = AuthTransactionsRouteImport.update({
   path: '/transactions',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthPokemonRoute = AuthPokemonRouteImport.update({
+  id: '/pokemon',
+  path: '/pokemon',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthFeaturesRoute = AuthFeaturesRouteImport.update({
   id: '/features',
   path: '/features',
@@ -45,19 +52,28 @@ const AuthDashboardRoute = AuthDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthCountriesRoute = AuthCountriesRouteImport.update({
+  id: '/countries',
+  path: '/countries',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/countries': typeof AuthCountriesRoute
   '/dashboard': typeof AuthDashboardRoute
   '/features': typeof AuthFeaturesRoute
+  '/pokemon': typeof AuthPokemonRoute
   '/transactions': typeof AuthTransactionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/countries': typeof AuthCountriesRoute
   '/dashboard': typeof AuthDashboardRoute
   '/features': typeof AuthFeaturesRoute
+  '/pokemon': typeof AuthPokemonRoute
   '/transactions': typeof AuthTransactionsRoute
 }
 export interface FileRoutesById {
@@ -65,22 +81,40 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
+  '/_auth/countries': typeof AuthCountriesRoute
   '/_auth/dashboard': typeof AuthDashboardRoute
   '/_auth/features': typeof AuthFeaturesRoute
+  '/_auth/pokemon': typeof AuthPokemonRoute
   '/_auth/transactions': typeof AuthTransactionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/dashboard' | '/features' | '/transactions'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/countries'
+    | '/dashboard'
+    | '/features'
+    | '/pokemon'
+    | '/transactions'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/dashboard' | '/features' | '/transactions'
+  to:
+    | '/'
+    | '/login'
+    | '/countries'
+    | '/dashboard'
+    | '/features'
+    | '/pokemon'
+    | '/transactions'
   id:
     | '__root__'
     | '/'
     | '/_auth'
     | '/login'
+    | '/_auth/countries'
     | '/_auth/dashboard'
     | '/_auth/features'
+    | '/_auth/pokemon'
     | '/_auth/transactions'
   fileRoutesById: FileRoutesById
 }
@@ -120,6 +154,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthTransactionsRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/pokemon': {
+      id: '/_auth/pokemon'
+      path: '/pokemon'
+      fullPath: '/pokemon'
+      preLoaderRoute: typeof AuthPokemonRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/features': {
       id: '/_auth/features'
       path: '/features'
@@ -134,18 +175,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/countries': {
+      id: '/_auth/countries'
+      path: '/countries'
+      fullPath: '/countries'
+      preLoaderRoute: typeof AuthCountriesRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
 interface AuthRouteChildren {
+  AuthCountriesRoute: typeof AuthCountriesRoute
   AuthDashboardRoute: typeof AuthDashboardRoute
   AuthFeaturesRoute: typeof AuthFeaturesRoute
+  AuthPokemonRoute: typeof AuthPokemonRoute
   AuthTransactionsRoute: typeof AuthTransactionsRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthCountriesRoute: AuthCountriesRoute,
   AuthDashboardRoute: AuthDashboardRoute,
   AuthFeaturesRoute: AuthFeaturesRoute,
+  AuthPokemonRoute: AuthPokemonRoute,
   AuthTransactionsRoute: AuthTransactionsRoute,
 }
 

@@ -11,8 +11,8 @@ import { transactionsQueryOptions } from '@/queries/transactions';
 
 export const Route = createFileRoute('/_auth/transactions')({
   loader: ({ context }) => {
-    // Pre-fetch transactions
-    return context.queryClient.ensureQueryData(transactionsQueryOptions);
+    // Start prefetch but don't await it - allows immediate navigation
+    context.queryClient.prefetchQuery(transactionsQueryOptions);
   },
   component: TransactionsPage,
 });

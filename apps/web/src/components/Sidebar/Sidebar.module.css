@@ -1,9 +1,12 @@
 .sidebar {
+  position: sticky;
+  top: 0;
   width: 260px;
-  min-height: 100vh;
+  height: 100vh;
   padding: 1rem;
   background: var(--mantine-color-body);
   border-right: 1px solid var(--mantine-color-gray-3);
+  overflow-y: auto;
 }
 
 .brand {

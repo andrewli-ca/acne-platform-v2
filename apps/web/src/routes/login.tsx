@@ -7,10 +7,16 @@ import { Box, Button, Card, Flex, PasswordInput, Stack, Text, TextInput, Title }
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      redirect: (search.redirect as string) || undefined,
+    };
+  },
 });
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { redirect } = Route.useSearch();
   const [email, setEmail] = useState('demo@example.com');
   const [password, setPassword] = useState('password123');
   const [error, setError] = useState('');
@@ -23,7 +29,14 @@ function LoginPage() {
 
     try {
       await mockClient.login(email, password);
-      navigate({ to: '/dashboard' });
+
+      // If there's a redirect URL, extract the path and navigate to it
+      if (redirect) {
+        const url = new URL(redirect);
+        navigate({ to: (url.pathname + url.search) as any });
+      } else {
+        navigate({ to: '/dashboard' });
+      }
     } catch {
       setError('Invalid credentials. Please try again.');
     } finally {

@@ -137,7 +137,7 @@ export const mockClient = {
    * Fetch all transactions
    */
   async getTransactions(): Promise<Transaction[]> {
-    await delay(400);
+    await delay(4000);
     return MOCK_TRANSACTIONS;
   },
 
