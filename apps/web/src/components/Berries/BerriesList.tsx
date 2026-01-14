@@ -22,11 +22,13 @@ export function BerriesList() {
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ');
 
-        // Get dominant flavor (highest potency)
-        const dominantFlavor = berry.flavors.reduce(
-          (max, flavor) => (flavor.potency > max.potency ? flavor : max),
-          berry.flavors[0]
-        );
+        // Get dominant flavor (highest potency) - only if flavors exist
+        const dominantFlavor =
+          berry.flavors && berry.flavors.length > 0
+            ? berry.flavors.reduce((max, flavor) =>
+                flavor.potency > max.potency ? flavor : max
+              )
+            : null;
 
         return (
           <Card key={berry.id} shadow="sm" padding="lg" radius="md" withBorder>
@@ -72,15 +74,17 @@ export function BerriesList() {
                 </Flex>
               </Stack>
 
-              {/* Flavors */}
-              <Box>
-                <Text size="sm" fw={500} c="dimmed" mb="xs">
-                  Dominant Flavor:
-                </Text>
-                <Badge variant="filled" size="md" style={{ textTransform: 'capitalize' }}>
-                  {dominantFlavor.flavor.name} ({dominantFlavor.potency})
-                </Badge>
-              </Box>
+              {/* Flavors - only render if dominant flavor exists */}
+              {dominantFlavor && (
+                <Box>
+                  <Text size="sm" fw={500} c="dimmed" mb="xs">
+                    Dominant Flavor:
+                  </Text>
+                  <Badge variant="filled" size="md" style={{ textTransform: 'capitalize' }}>
+                    {dominantFlavor.flavor.name} ({dominantFlavor.potency})
+                  </Badge>
+                </Box>
+              )}
             </Stack>
           </Card>
         );
