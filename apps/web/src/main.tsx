@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';
 
-import { Text } from '@acme/ui';
+import { Center, Loader } from '@acme/ui';
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
@@ -24,7 +24,11 @@ const queryClient = new QueryClient({
 // Create the router with context
 const router = createRouter({
   routeTree,
-  defaultPendingComponent: () => <Text>Loading...</Text>,
+  defaultPendingComponent: () => (
+    <Center h="100%" mih="100vh">
+      <Loader size="lg" />
+    </Center>
+  ),
   context: {
     queryClient,
   },

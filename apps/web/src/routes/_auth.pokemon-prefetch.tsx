@@ -10,35 +10,36 @@ import { PokemonTable } from '@/components/Pokemon';
 import { TableSkeleton } from '@/components/TableSkeleton';
 import { berriesQueryOptions, pokemonTableQueryOptions } from '@/queries/pokemon';
 
-// import { berriesQueryOptions, pokemonTableQueryOptions } from '@/queries/pokemon';
-
-export const Route = createFileRoute('/_auth/pokemon-suspense')({
-  loader: async ({ context }) => {
-    // Prefetching disabled to observe Suspense boundaries
-    // Uncomment these lines to enable prefetching:
-    await context.queryClient.prefetchQuery(pokemonTableQueryOptions);
-    await context.queryClient.prefetchQuery(berriesQueryOptions);
+export const Route = createFileRoute('/_auth/pokemon-prefetch')({
+  loader: ({ context }) => {
+    // Start prefetching but don't block navigation
+    context.queryClient.prefetchQuery(pokemonTableQueryOptions);
+    context.queryClient.prefetchQuery(berriesQueryOptions);
   },
-  component: PokemonSuspensePage,
+  // Disable the router's pending component for this route
+  // Let Suspense boundaries handle loading states instead
+  pendingMs: Infinity,
+  component: PokemonPrefetchPage,
 });
 
 /**
- * Main Page Component
- * Demonstrates multiple independent Suspense boundaries
+ * Prefetch Strategy Demo
+ * Non-blocking prefetch with Suspense boundaries
  */
-function PokemonSuspensePage() {
+function PokemonPrefetchPage() {
   return (
     <Flex direction="column" gap="xl" style={{ maxWidth: '1400px', width: '100%' }}>
       {/* Header */}
       <Box>
         <Flex align="center" gap="md" mb="md">
           <BookOpen size={32} />
-          <Title order={2}>React Suspense Demo</Title>
+          <Title order={2}>Prefetch Strategy (Non-blocking)</Title>
         </Flex>
         <Text c="dimmed">
-          This page demonstrates multiple Suspense boundaries with concurrent loading. Each section
-          loads independently - notice how the faster query displays first while the slower one
-          continues loading.
+          This page demonstrates non-blocking prefetch with Suspense fallbacks. Data prefetching
+          starts immediately in the loader, but navigation doesn't wait. If data is ready when the
+          page renders, it appears instantly. If not, Suspense boundaries show skeleton loaders
+          until data arrives. Each section loads independently.
         </Text>
       </Box>
 

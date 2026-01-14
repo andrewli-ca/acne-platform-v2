@@ -1,5 +1,14 @@
 import { Link, useLocation } from '@tanstack/react-router';
-import { BookOpen, CreditCard, Globe, LayoutDashboard, LogOut, Sparkles, Zap } from 'lucide-react';
+import {
+  BookOpen,
+  Clock,
+  CreditCard,
+  Globe,
+  LayoutDashboard,
+  LogOut,
+  Sparkles,
+  Zap,
+} from 'lucide-react';
 
 import { mockClient } from '@acme/api';
 import { Box, NavLink, Stack, Text } from '@acme/ui';
@@ -11,7 +20,8 @@ const navItems = [
   { to: '/transactions', label: 'Transactions', icon: CreditCard },
   { to: '/countries', label: 'Countries', icon: Globe },
   { to: '/pokemon', label: 'Pokemon', icon: Zap },
-  { to: '/pokemon-suspense', label: 'Suspense Demo', icon: BookOpen },
+  { to: '/pokemon-prefetch', label: 'Prefetch (Suspense)', icon: BookOpen },
+  { to: '/pokemon-await', label: 'Await (Pending)', icon: Clock },
   { to: '/features', label: 'Features', icon: Sparkles },
 ] as const;
 

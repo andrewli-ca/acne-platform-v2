@@ -28,6 +28,7 @@ export {
   Box,
   Button,
   Card,
+  Center,
   Container,
   Divider,
   Flex,
