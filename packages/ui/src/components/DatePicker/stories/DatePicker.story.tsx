@@ -7,9 +7,10 @@ import { Box, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
 import { DatePicker, type DatePickerProps } from '../DatePicker';
+import type { DatePickerRangeType } from '../types';
 
 const meta = {
-  title: 'Components/DatePicker',
+  title: 'Components/DatePicker/DatePicker',
   component: DatePicker,
   parameters: {
     layout: 'padded',
@@ -22,13 +23,13 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    startDate: {
+    initialStartDate: {
       control: 'date',
-      description: 'Selected start date',
+      description: 'Initial start date',
     },
-    endDate: {
+    initialEndDate: {
       control: 'date',
-      description: 'Selected end date',
+      description: 'Initial end date',
     },
     maxDataHistory: {
       control: 'date',
@@ -60,25 +61,30 @@ function DatePickerWrapper({
   maxDataHistory,
   children,
   ...props
-}: Omit<DatePickerProps, 'startDate' | 'endDate' | 'onChange'> & {
+}: Omit<DatePickerProps, 'initialStartDate' | 'initialEndDate'> & {
   defaultStartDate?: DateValue;
   defaultEndDate?: DateValue;
   children?: ReactNode;
 }) {
   const [startDate, setStartDate] = useState<DateValue>(defaultStartDate || null);
   const [endDate, setEndDate] = useState<DateValue>(defaultEndDate || null);
+  const [rangeType, setRangeType] = useState<DatePickerRangeType>(props.initialRangeType ?? 'quarterly');
 
   return (
     <Box p="xl" style={{ maxWidth: 1000 }}>
       <Stack gap="md">
         {children}
         <DatePicker
-          startDate={startDate}
-          endDate={endDate}
+          initialStartDate={defaultStartDate || null}
+          initialEndDate={defaultEndDate || null}
           maxDataHistory={maxDataHistory}
-          onChange={(range) => {
+          onChange={(range, nextRangeType) => {
             setStartDate(range.startDate);
             setEndDate(range.endDate);
+            setRangeType(nextRangeType);
+          }}
+          onApply={(range, nextRangeType) => {
+            props.onApply?.(range, nextRangeType);
           }}
           {...props}
         />
@@ -86,6 +92,9 @@ function DatePickerWrapper({
           <Stack gap="xs">
             <Text size="sm" fw={600}>
               Selected Range:
+            </Text>
+            <Text size="sm" c="dimmed">
+              Type: {rangeType}
             </Text>
             <Text size="sm" c="dimmed">
               Start:{' '}
@@ -241,6 +250,7 @@ export const Interactive: Story = {
   render: () => {
     const [startDate, setStartDate] = useState<DateValue>(null);
     const [endDate, setEndDate] = useState<DateValue>(null);
+    const [rangeType, setRangeType] = useState<DatePickerRangeType>('quarterly');
 
     return (
       <Box p="xl" style={{ maxWidth: 1000 }}>
@@ -250,21 +260,26 @@ export const Interactive: Story = {
             Monthly, and Custom modes, and use the Quick Picks shortcuts.
           </Text>
           <DatePicker
-            startDate={startDate}
-            endDate={endDate}
-            onChange={(range) => {
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+            onChange={(range, nextRangeType) => {
               setStartDate(range.startDate);
               setEndDate(range.endDate);
+              setRangeType(nextRangeType);
             }}
-            onApply={(start, end) => {
-              setStartDate(start);
-              setEndDate(end);
+            onApply={(range, nextRangeType) => {
+              setStartDate(range.startDate);
+              setEndDate(range.endDate);
+              setRangeType(nextRangeType);
             }}
           />
           <Box p="md" style={{ border: '1px solid var(--mantine-color-gray-3)', borderRadius: 8 }}>
             <Stack gap="xs">
               <Text size="sm" fw={600}>
                 Selected Range:
+              </Text>
+              <Text size="sm" c="dimmed">
+                Type: {rangeType}
               </Text>
               <Text size="sm" c="dimmed">
                 Start:{' '}

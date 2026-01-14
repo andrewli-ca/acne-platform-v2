@@ -7,7 +7,7 @@ import { Box, Flex, Paper, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
 import { QuickPicksSidebar } from '../QuickPicksSidebar';
-import type { DateRange } from '../types';
+import type { DatePickerRangeType, DateRange } from '../types';
 
 const meta = {
   title: 'Components/DatePicker/QuickPicksSidebar',
@@ -52,13 +52,15 @@ function QuickPicksSidebarWrapper({
 }) {
   const [startDate, setStartDate] = useState<DateValue>(null);
   const [endDate, setEndDate] = useState<DateValue>(null);
+  const [rangeType, setRangeType] = useState<DatePickerRangeType>('custom');
   const today = dayjs();
   const maxDate = today.toDate();
 
-  const handleChange = (range: DateRange) => {
+  const handleChange = (range: DateRange, newRangeType: DatePickerRangeType) => {
     setStartDate(range.startDate);
     setEndDate(range.endDate);
-    props.onChange?.(range);
+    setRangeType(newRangeType);
+    props.onChange?.(range, newRangeType);
   };
 
   return (
@@ -74,6 +76,9 @@ function QuickPicksSidebarWrapper({
             <Stack gap="xs">
               <Text size="sm" fw={600}>
                 Selected Range:
+              </Text>
+              <Text size="sm" c="dimmed">
+                Type: {rangeType}
               </Text>
               <Text size="sm" c="dimmed">
                 Start:{' '}
@@ -171,6 +176,7 @@ export const Interactive: Story = {
   render: () => {
     const [startDate, setStartDate] = useState<DateValue>(null);
     const [endDate, setEndDate] = useState<DateValue>(null);
+    const [rangeType, setRangeType] = useState<DatePickerRangeType>('custom');
     const today = dayjs();
     const maxDate = today.toDate();
 
@@ -179,9 +185,10 @@ export const Interactive: Story = {
         <Flex gap="md" align="flex-start">
           <QuickPicksSidebar
             maxDate={maxDate}
-            onChange={(range) => {
+            onChange={(range, newRangeType) => {
               setStartDate(range.startDate);
               setEndDate(range.endDate);
+              setRangeType(newRangeType);
             }}
           />
           <Stack gap="md" style={{ flex: 1 }}>
@@ -193,6 +200,9 @@ export const Interactive: Story = {
               <Stack gap="xs">
                 <Text size="sm" fw={600}>
                   Selected Range:
+                </Text>
+                <Text size="sm" c="dimmed">
+                  Type: {rangeType}
                 </Text>
                 <Text size="sm" c="dimmed">
                   Start:{' '}

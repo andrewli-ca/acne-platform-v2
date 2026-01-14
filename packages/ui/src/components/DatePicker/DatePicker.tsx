@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 
 import dayjs from 'dayjs';
 
-import { Button, Flex, Group, ScrollArea, SegmentedControl, Stack, Text } from '@mantine/core';
+import { Box, Button, Flex, Group, ScrollArea, SegmentedControl, Stack, Text } from '@mantine/core';
 import { type DateValue } from '@mantine/dates';
 
 import { CustomRangePicker } from './CustomRangePicker';
@@ -13,23 +13,25 @@ import { QuickPicksSidebar } from './QuickPicksSidebar';
 import type { DatePickerRangeType, DateRange } from './types';
 
 export interface DatePickerProps {
-  startDate: DateValue;
-  endDate: DateValue;
-  maxDataHistory?: DateValue;
+  initialStartDate: DateValue;
+  initialEndDate: DateValue;
   initialRangeType?: DatePickerRangeType;
-  onChange?: (range: DateRange) => void;
-  onApply?: (startDate: DateValue, endDate: DateValue) => void;
+  maxDataHistory?: DateValue;
+  onChange?: (range: DateRange, rangeType: DatePickerRangeType) => void;
+  onApply?: (range: DateRange, rangeType: DatePickerRangeType) => void;
 }
 
 export function DatePicker({
-  startDate,
-  endDate,
-  maxDataHistory,
+  initialStartDate,
+  initialEndDate,
   initialRangeType = 'quarterly',
+  maxDataHistory,
   onChange,
   onApply,
 }: DatePickerProps) {
   const [rangeType, setRangeType] = useState<DatePickerRangeType>(initialRangeType);
+  const [startDate, setStartDate] = useState<DateValue>(initialStartDate);
+  const [endDate, setEndDate] = useState<DateValue>(initialEndDate);
 
   const today = dayjs();
 
@@ -44,23 +46,34 @@ export function DatePicker({
   const maxDate = today.toDate();
 
   const handleChange = useCallback(
-    (range: DateRange) => {
-      onChange?.(range);
+    (range: DateRange, nextRangeType: DatePickerRangeType = rangeType) => {
+      setStartDate(range.startDate);
+      setEndDate(range.endDate);
+      setRangeType(nextRangeType);
+      onChange?.(range, nextRangeType);
     },
-    [onChange]
+    [onChange, rangeType]
   );
 
   const handleApply = useCallback(() => {
-    onApply?.(startDate, endDate);
-  }, [startDate, endDate, onApply]);
+    onApply?.({ startDate, endDate }, rangeType);
+  }, [startDate, endDate, onApply, rangeType]);
 
   return (
-    <Flex gap="md" align="flex-start">
+    <Flex gap="md" align="stretch">
       {/* Quick Picks Sidebar */}
-      <QuickPicksSidebar minDate={minDate} maxDate={maxDate} onChange={handleChange} />
+      <Box style={{ borderRight: '1px solid var(--mantine-color-gray-2)' }} pr="lg">
+        <QuickPicksSidebar
+          minDate={minDate}
+          maxDate={maxDate}
+          onChange={(range, rangeType) => {
+            handleChange(range, rangeType);
+          }}
+        />
+      </Box>
 
       {/* Main Content */}
-      <Stack gap="md" style={{ flex: 1 }}>
+      <Stack gap="0" style={{ flex: 1 }}>
         {/* Tabs */}
         <Group justify="center" align="center">
           <SegmentedControl
@@ -76,53 +89,58 @@ export function DatePicker({
 
         {/* Content Area */}
         <ScrollArea h="333px">
-          {rangeType === 'quarterly' && (
-            <QuarterlyRangePicker
-              startDate={startDate}
-              endDate={endDate}
-              minDate={minDate}
-              maxDate={maxDate}
-              onChange={handleChange}
-            />
-          )}
+          <Box py="md">
+            {rangeType === 'quarterly' && (
+              <QuarterlyRangePicker
+                startDate={startDate}
+                endDate={endDate}
+                minDate={minDate}
+                maxDate={maxDate}
+                onChange={handleChange}
+              />
+            )}
 
-          {rangeType === 'monthly' && (
-            <MonthlyRangePicker
-              startDate={startDate}
-              endDate={endDate}
-              minDate={minDate}
-              maxDate={maxDate}
-              onChange={handleChange}
-            />
-          )}
+            {rangeType === 'monthly' && (
+              <MonthlyRangePicker
+                startDate={startDate}
+                endDate={endDate}
+                minDate={minDate}
+                maxDate={maxDate}
+                onChange={handleChange}
+              />
+            )}
 
-          {rangeType === 'custom' && (
-            <CustomRangePicker
-              startDate={startDate}
-              endDate={endDate}
-              minDate={minDate}
-              maxDate={maxDate}
-              onChange={handleChange}
-            />
-          )}
+            {rangeType === 'custom' && (
+              <CustomRangePicker
+                startDate={startDate}
+                endDate={endDate}
+                minDate={minDate}
+                maxDate={maxDate}
+                onChange={handleChange}
+              />
+            )}
+          </Box>
         </ScrollArea>
 
         {/* Date Range Inputs and Apply Button */}
-        <Group justify="space-between" align="center">
+        <Group
+          justify="space-between"
+          align="center"
+          style={{ borderTop: '1px solid var(--mantine-color-gray-2)' }}
+          pt="md"
+        >
           <Group gap="xs">
             <DateInput
               date={startDate}
               onChange={(date) => {
-                handleChange({ startDate: date, endDate });
-                setRangeType('custom');
+                handleChange({ startDate: date, endDate }, 'custom');
               }}
             />
             <Text size="sm">to</Text>
             <DateInput
               date={endDate}
               onChange={(date) => {
-                handleChange({ startDate, endDate: date });
-                setRangeType('custom');
+                handleChange({ startDate, endDate: date }, 'custom');
               }}
             />
           </Group>

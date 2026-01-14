@@ -6,12 +6,12 @@ import { Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
 import { getCurrentQuarter, getPreviousQuarter, getQuarterRange } from './quarter-helpers';
-import type { DateRange } from './types';
+import type { DatePickerRangeType, DateRange } from './types';
 
 interface QuickPicksSidebarProps {
   minDate?: DateValue;
   maxDate: DateValue;
-  onChange?: (range: DateRange) => void;
+  onChange?: (range: DateRange, rangeType: DatePickerRangeType) => void;
 }
 
 export function QuickPicksSidebar({ minDate, maxDate, onChange }: QuickPicksSidebarProps) {
@@ -22,31 +22,40 @@ export function QuickPicksSidebar({ minDate, maxDate, onChange }: QuickPicksSide
     (type: string) => {
       let newStartDate: Date | null = null;
       let newEndDate: Date | null = null;
+      let newRangeType: DatePickerRangeType = 'custom';
+      let isThisQuarter = false;
 
       switch (type) {
         case 'thisMonth':
           newStartDate = today.startOf('month').toDate();
           newEndDate = today.endOf('month').toDate();
+          newRangeType = 'monthly';
           break;
         case 'lastMonth':
           newStartDate = today.subtract(1, 'month').startOf('month').toDate();
           newEndDate = today.subtract(1, 'month').endOf('month').toDate();
+          newRangeType = 'monthly';
           break;
         case 'thisQuarter': {
           const currentQ = getCurrentQuarter(today);
           newStartDate = currentQ.start.toDate();
+          // Always use the full quarter end date, not clamped to today
           newEndDate = currentQ.end.toDate();
+          newRangeType = 'quarterly';
+          isThisQuarter = true;
           break;
         }
         case 'lastQuarter': {
           const prevQ = getPreviousQuarter(today);
           newStartDate = prevQ.start.toDate();
           newEndDate = prevQ.end.toDate();
+          newRangeType = 'quarterly';
           break;
         }
         case 'lastYear':
           newStartDate = today.subtract(1, 'year').startOf('year').toDate();
           newEndDate = today.subtract(1, 'year').endOf('year').toDate();
+          newRangeType = 'quarterly';
           break;
         case 'allTime': {
           const minDateObj = minDate
@@ -59,6 +68,7 @@ export function QuickPicksSidebar({ minDate, maxDate, onChange }: QuickPicksSide
           const maxDateObj = maxDate instanceof Date ? maxDate : maxDate ? new Date(maxDate) : null;
           newStartDate = minDateObj;
           newEndDate = maxDateObj;
+          newRangeType = 'quarterly';
           break;
         }
         default: {
@@ -70,6 +80,7 @@ export function QuickPicksSidebar({ minDate, maxDate, onChange }: QuickPicksSide
             const quarterRange = getQuarterRange(year, quarter);
             newStartDate = quarterRange.start.toDate();
             newEndDate = quarterRange.end.toDate();
+            newRangeType = 'quarterly';
           }
           break;
         }
@@ -84,14 +95,19 @@ export function QuickPicksSidebar({ minDate, maxDate, onChange }: QuickPicksSide
           }
         }
         const maxDateObj = maxDate instanceof Date ? maxDate : maxDate ? new Date(maxDate) : null;
-        if (maxDateObj && dayjs(newEndDate).isAfter(maxDateObj)) {
+        // Don't clamp end date for "thisQuarter" - always use full quarter end date
+        // For other cases, clamp if end date is after maxDate
+        if (maxDateObj && dayjs(newEndDate).isAfter(maxDateObj) && !isThisQuarter) {
           newEndDate = maxDateObj;
         }
 
-        onChange?.({
-          startDate: newStartDate,
-          endDate: newEndDate,
-        });
+        onChange?.(
+          {
+            startDate: newStartDate,
+            endDate: newEndDate,
+          },
+          newRangeType
+        );
       }
     },
     [today, minDate, maxDate, onChange]
