@@ -11,6 +11,7 @@ export default [
       // React-specific rules
       'react/prop-types': 'off', // Using TypeScript
       'react/react-in-jsx-scope': 'off', // Not needed in React 17+
+      curly: ['error', 'multi-line'], // Allow single-line if statements without braces
       // Note: react-hooks rules are configured by eslint-config-mantine
       // If they're not working, the plugin might need to be in consuming package's devDependencies
     },
