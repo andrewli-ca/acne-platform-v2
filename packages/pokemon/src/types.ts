@@ -58,3 +58,12 @@ export interface PokemonListResponse {
     url: string;
   }>;
 }
+
+/**
+ * Paginated Pokemon response for infinite scrolling
+ */
+export interface PaginatedPokemonResponse {
+  pokemon: Pokemon[];
+  nextOffset: number | null;
+  totalCount: number;
+}
