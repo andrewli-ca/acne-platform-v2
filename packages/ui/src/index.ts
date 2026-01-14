@@ -7,6 +7,8 @@ export type { ThemeProviderProps } from './ThemeProvider';
 // Components
 export { DataDialog } from './components/DataDialog';
 export type { DataDialogProps } from './components/DataDialog';
+export { DatePicker } from './components/DatePicker';
+export type { DatePickerProps } from './components/DatePicker';
 export { Drawer } from './components/Drawer/Drawer';
 export type { DrawerProps } from './components/Drawer/Drawer';
 export { FeatureCard } from './components/FeatureCard';
