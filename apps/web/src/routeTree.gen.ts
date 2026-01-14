@@ -13,6 +13,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthTransactionsRouteImport } from './routes/_auth.transactions'
+import { Route as AuthPokemonSuspenseRouteImport } from './routes/_auth.pokemon-suspense'
 import { Route as AuthPokemonRouteImport } from './routes/_auth.pokemon'
 import { Route as AuthFeaturesRouteImport } from './routes/_auth.features'
 import { Route as AuthDashboardRouteImport } from './routes/_auth.dashboard'
@@ -35,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthTransactionsRoute = AuthTransactionsRouteImport.update({
   id: '/transactions',
   path: '/transactions',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthPokemonSuspenseRoute = AuthPokemonSuspenseRouteImport.update({
+  id: '/pokemon-suspense',
+  path: '/pokemon-suspense',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthPokemonRoute = AuthPokemonRouteImport.update({
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthDashboardRoute
   '/features': typeof AuthFeaturesRoute
   '/pokemon': typeof AuthPokemonRoute
+  '/pokemon-suspense': typeof AuthPokemonSuspenseRoute
   '/transactions': typeof AuthTransactionsRoute
 }
 export interface FileRoutesByTo {
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthDashboardRoute
   '/features': typeof AuthFeaturesRoute
   '/pokemon': typeof AuthPokemonRoute
+  '/pokemon-suspense': typeof AuthPokemonSuspenseRoute
   '/transactions': typeof AuthTransactionsRoute
 }
 export interface FileRoutesById {
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/_auth/dashboard': typeof AuthDashboardRoute
   '/_auth/features': typeof AuthFeaturesRoute
   '/_auth/pokemon': typeof AuthPokemonRoute
+  '/_auth/pokemon-suspense': typeof AuthPokemonSuspenseRoute
   '/_auth/transactions': typeof AuthTransactionsRoute
 }
 export interface FileRouteTypes {
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/features'
     | '/pokemon'
+    | '/pokemon-suspense'
     | '/transactions'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/features'
     | '/pokemon'
+    | '/pokemon-suspense'
     | '/transactions'
   id:
     | '__root__'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '/_auth/dashboard'
     | '/_auth/features'
     | '/_auth/pokemon'
+    | '/_auth/pokemon-suspense'
     | '/_auth/transactions'
   fileRoutesById: FileRoutesById
 }
@@ -154,6 +166,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthTransactionsRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/pokemon-suspense': {
+      id: '/_auth/pokemon-suspense'
+      path: '/pokemon-suspense'
+      fullPath: '/pokemon-suspense'
+      preLoaderRoute: typeof AuthPokemonSuspenseRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/pokemon': {
       id: '/_auth/pokemon'
       path: '/pokemon'
@@ -190,6 +209,7 @@ interface AuthRouteChildren {
   AuthDashboardRoute: typeof AuthDashboardRoute
   AuthFeaturesRoute: typeof AuthFeaturesRoute
   AuthPokemonRoute: typeof AuthPokemonRoute
+  AuthPokemonSuspenseRoute: typeof AuthPokemonSuspenseRoute
   AuthTransactionsRoute: typeof AuthTransactionsRoute
 }
 
@@ -198,6 +218,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthDashboardRoute: AuthDashboardRoute,
   AuthFeaturesRoute: AuthFeaturesRoute,
   AuthPokemonRoute: AuthPokemonRoute,
+  AuthPokemonSuspenseRoute: AuthPokemonSuspenseRoute,
   AuthTransactionsRoute: AuthTransactionsRoute,
 }
 

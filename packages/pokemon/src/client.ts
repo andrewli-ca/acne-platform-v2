@@ -1,6 +1,6 @@
 import { BaseRestClient } from '@acme/http-client';
 
-import type { PaginatedPokemonResponse, Pokemon, PokemonListResponse } from './types';
+import type { Berry, BerryListResponse, PaginatedPokemonResponse, Pokemon, PokemonListResponse } from './types';
 
 /**
  * PokeAPI Client
@@ -71,6 +71,32 @@ export class PokemonClient extends BaseRestClient {
    */
   async getPokemonByName(name: string): Promise<Pokemon> {
     return this.get<Pokemon>(`/pokemon/${name.toLowerCase()}`);
+  }
+
+  /**
+   * Fetch a list of Berries with detailed information
+   * @param limit - Number of berries to fetch (default: 20)
+   * @returns Array of berries with full details
+   */
+  async getBerries(limit: number = 20): Promise<Berry[]> {
+    // Fetch list of berry URLs
+    const listData = await this.get<BerryListResponse>(`/berry?limit=${limit}`);
+
+    // Fetch detailed data for each berry
+    const berryPromises = listData.results.map((b) =>
+      this.get<Berry>(b.url.replace('https://pokeapi.co/api/v2', '')),
+    );
+
+    return Promise.all(berryPromises);
+  }
+
+  /**
+   * Fetch a specific Berry by ID
+   * @param id - Berry ID number
+   * @returns Berry data
+   */
+  async getBerryById(id: number): Promise<Berry> {
+    return this.get<Berry>(`/berry/${id}`);
   }
 }
 

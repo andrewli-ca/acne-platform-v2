@@ -2,6 +2,10 @@
 
 // Export types
 export type {
+  Berry,
+  BerryFirmness,
+  BerryFlavor,
+  BerryListResponse,
   PaginatedPokemonResponse,
   Pokemon,
   PokemonAbility,

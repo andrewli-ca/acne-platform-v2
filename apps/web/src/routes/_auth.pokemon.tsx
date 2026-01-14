@@ -17,7 +17,7 @@ import {
   useInfiniteScroll,
 } from '@acme/ui';
 
-import { PokemonSkeleton } from '@/components/PokemonSkeleton';
+import { PokemonSkeleton } from '@/components/Pokemon';
 import { pokemonInfiniteQueryOptions } from '@/queries/pokemon';
 
 export const Route = createFileRoute('/_auth/pokemon')({
