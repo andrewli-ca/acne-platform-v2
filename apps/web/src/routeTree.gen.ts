@@ -13,6 +13,8 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthTransactionsRouteImport } from './routes/_auth.transactions'
+import { Route as AuthPokemonPrefetchRouteImport } from './routes/_auth.pokemon-prefetch'
+import { Route as AuthPokemonAwaitRouteImport } from './routes/_auth.pokemon-await'
 import { Route as AuthPokemonRouteImport } from './routes/_auth.pokemon'
 import { Route as AuthFeaturesRouteImport } from './routes/_auth.features'
 import { Route as AuthDashboardRouteImport } from './routes/_auth.dashboard'
@@ -35,6 +37,16 @@ const IndexRoute = IndexRouteImport.update({
 const AuthTransactionsRoute = AuthTransactionsRouteImport.update({
   id: '/transactions',
   path: '/transactions',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthPokemonPrefetchRoute = AuthPokemonPrefetchRouteImport.update({
+  id: '/pokemon-prefetch',
+  path: '/pokemon-prefetch',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthPokemonAwaitRoute = AuthPokemonAwaitRouteImport.update({
+  id: '/pokemon-await',
+  path: '/pokemon-await',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthPokemonRoute = AuthPokemonRouteImport.update({
@@ -65,6 +77,8 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthDashboardRoute
   '/features': typeof AuthFeaturesRoute
   '/pokemon': typeof AuthPokemonRoute
+  '/pokemon-await': typeof AuthPokemonAwaitRoute
+  '/pokemon-prefetch': typeof AuthPokemonPrefetchRoute
   '/transactions': typeof AuthTransactionsRoute
 }
 export interface FileRoutesByTo {
@@ -74,6 +88,8 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthDashboardRoute
   '/features': typeof AuthFeaturesRoute
   '/pokemon': typeof AuthPokemonRoute
+  '/pokemon-await': typeof AuthPokemonAwaitRoute
+  '/pokemon-prefetch': typeof AuthPokemonPrefetchRoute
   '/transactions': typeof AuthTransactionsRoute
 }
 export interface FileRoutesById {
@@ -85,6 +101,8 @@ export interface FileRoutesById {
   '/_auth/dashboard': typeof AuthDashboardRoute
   '/_auth/features': typeof AuthFeaturesRoute
   '/_auth/pokemon': typeof AuthPokemonRoute
+  '/_auth/pokemon-await': typeof AuthPokemonAwaitRoute
+  '/_auth/pokemon-prefetch': typeof AuthPokemonPrefetchRoute
   '/_auth/transactions': typeof AuthTransactionsRoute
 }
 export interface FileRouteTypes {
@@ -96,6 +114,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/features'
     | '/pokemon'
+    | '/pokemon-await'
+    | '/pokemon-prefetch'
     | '/transactions'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -105,6 +125,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/features'
     | '/pokemon'
+    | '/pokemon-await'
+    | '/pokemon-prefetch'
     | '/transactions'
   id:
     | '__root__'
@@ -115,6 +137,8 @@ export interface FileRouteTypes {
     | '/_auth/dashboard'
     | '/_auth/features'
     | '/_auth/pokemon'
+    | '/_auth/pokemon-await'
+    | '/_auth/pokemon-prefetch'
     | '/_auth/transactions'
   fileRoutesById: FileRoutesById
 }
@@ -154,6 +178,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthTransactionsRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/pokemon-prefetch': {
+      id: '/_auth/pokemon-prefetch'
+      path: '/pokemon-prefetch'
+      fullPath: '/pokemon-prefetch'
+      preLoaderRoute: typeof AuthPokemonPrefetchRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/pokemon-await': {
+      id: '/_auth/pokemon-await'
+      path: '/pokemon-await'
+      fullPath: '/pokemon-await'
+      preLoaderRoute: typeof AuthPokemonAwaitRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/pokemon': {
       id: '/_auth/pokemon'
       path: '/pokemon'
@@ -190,6 +228,8 @@ interface AuthRouteChildren {
   AuthDashboardRoute: typeof AuthDashboardRoute
   AuthFeaturesRoute: typeof AuthFeaturesRoute
   AuthPokemonRoute: typeof AuthPokemonRoute
+  AuthPokemonAwaitRoute: typeof AuthPokemonAwaitRoute
+  AuthPokemonPrefetchRoute: typeof AuthPokemonPrefetchRoute
   AuthTransactionsRoute: typeof AuthTransactionsRoute
 }
 
@@ -198,6 +238,8 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthDashboardRoute: AuthDashboardRoute,
   AuthFeaturesRoute: AuthFeaturesRoute,
   AuthPokemonRoute: AuthPokemonRoute,
+  AuthPokemonAwaitRoute: AuthPokemonAwaitRoute,
+  AuthPokemonPrefetchRoute: AuthPokemonPrefetchRoute,
   AuthTransactionsRoute: AuthTransactionsRoute,
 }
 
