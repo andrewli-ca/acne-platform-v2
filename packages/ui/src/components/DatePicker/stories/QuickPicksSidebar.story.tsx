@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
+import dayjs from 'dayjs';
+
 import { Box, Flex, Paper, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
-import type { DateRange } from './CustomRangePicker';
-import { QuickPicksSidebar } from './QuickPicksSidebar';
-
-import dayjs from 'dayjs';
+import { QuickPicksSidebar } from '../QuickPicksSidebar';
+import type { DateRange } from '../types';
 
 const meta = {
   title: 'Components/DatePicker/QuickPicksSidebar',
@@ -44,9 +44,11 @@ type Story = StoryObj<typeof QuickPicksSidebar>;
 // Helper component to manage state and display results
 function QuickPicksSidebarWrapper({
   minDate,
+  children,
   ...props
 }: Omit<React.ComponentProps<typeof QuickPicksSidebar>, 'maxDate'> & {
   minDate?: DateValue;
+  children?: React.ReactNode;
 }) {
   const [startDate, setStartDate] = useState<DateValue>(null);
   const [endDate, setEndDate] = useState<DateValue>(null);
@@ -64,6 +66,7 @@ function QuickPicksSidebarWrapper({
       <Flex gap="md" align="flex-start">
         <QuickPicksSidebar minDate={minDate} maxDate={maxDate} onChange={handleChange} />
         <Stack gap="md" style={{ flex: 1 }}>
+          {children}
           <Text size="sm" c="dimmed">
             Click on any quick pick option to see the selected date range update.
           </Text>
@@ -75,13 +78,17 @@ function QuickPicksSidebarWrapper({
               <Text size="sm" c="dimmed">
                 Start:{' '}
                 {startDate
-                  ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format('MMM D, YYYY')
+                  ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format(
+                      'MMM D, YYYY'
+                    )
                   : 'Not selected'}
               </Text>
               <Text size="sm" c="dimmed">
                 End:{' '}
                 {endDate
-                  ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format('MMM D, YYYY')
+                  ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format(
+                      'MMM D, YYYY'
+                    )
                   : 'Not selected'}
               </Text>
               {startDate && endDate && (
@@ -90,17 +97,22 @@ function QuickPicksSidebarWrapper({
                     Range:{' '}
                     {Math.ceil(
                       (dayjs(endDate instanceof Date ? endDate : new Date(endDate)).valueOf() -
-                        dayjs(startDate instanceof Date ? startDate : new Date(startDate)).valueOf()) /
+                        dayjs(
+                          startDate instanceof Date ? startDate : new Date(startDate)
+                        ).valueOf()) /
                         (1000 * 60 * 60 * 24)
                     )}{' '}
                     days
                   </Text>
                   <Text size="xs" c="dimmed">
                     Start:{' '}
-                    {dayjs(startDate instanceof Date ? startDate : new Date(startDate)).toISOString()}
+                    {dayjs(
+                      startDate instanceof Date ? startDate : new Date(startDate)
+                    ).toISOString()}
                   </Text>
                   <Text size="xs" c="dimmed">
-                    End: {dayjs(endDate instanceof Date ? endDate : new Date(endDate)).toISOString()}
+                    End:{' '}
+                    {dayjs(endDate instanceof Date ? endDate : new Date(endDate)).toISOString()}
                   </Text>
                 </>
               )}
@@ -185,13 +197,17 @@ export const Interactive: Story = {
                 <Text size="sm" c="dimmed">
                   Start:{' '}
                   {startDate
-                    ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format('MMM D, YYYY')
+                    ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format(
+                        'MMM D, YYYY'
+                      )
                     : 'Not selected'}
                 </Text>
                 <Text size="sm" c="dimmed">
                   End:{' '}
                   {endDate
-                    ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format('MMM D, YYYY')
+                    ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format(
+                        'MMM D, YYYY'
+                      )
                     : 'Not selected'}
                 </Text>
                 {startDate && endDate && (
@@ -200,17 +216,22 @@ export const Interactive: Story = {
                       Range:{' '}
                       {Math.ceil(
                         (dayjs(endDate instanceof Date ? endDate : new Date(endDate)).valueOf() -
-                          dayjs(startDate instanceof Date ? startDate : new Date(startDate)).valueOf()) /
+                          dayjs(
+                            startDate instanceof Date ? startDate : new Date(startDate)
+                          ).valueOf()) /
                           (1000 * 60 * 60 * 24)
                       )}{' '}
                       days
                     </Text>
                     <Text size="xs" c="dimmed">
                       Start:{' '}
-                      {dayjs(startDate instanceof Date ? startDate : new Date(startDate)).toISOString()}
+                      {dayjs(
+                        startDate instanceof Date ? startDate : new Date(startDate)
+                      ).toISOString()}
                     </Text>
                     <Text size="xs" c="dimmed">
-                      End: {dayjs(endDate instanceof Date ? endDate : new Date(endDate)).toISOString()}
+                      End:{' '}
+                      {dayjs(endDate instanceof Date ? endDate : new Date(endDate)).toISOString()}
                     </Text>
                   </>
                 )}
@@ -268,7 +289,7 @@ export const AllQuickPicks: Story = {
               • Displays the current quarter and the 2 previous quarters
             </Text>
             <Text size="xs" c="dimmed">
-              • Format: "Q{number} {year}" (e.g., "Q3 2024")
+              • Format: &quot;Q[number] [year]&quot; (e.g., &quot;Q3 2024&quot;)
             </Text>
           </Stack>
         </Paper>
@@ -279,8 +300,7 @@ export const AllQuickPicks: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          'Documentation of all available quick pick options and their functionality.',
+        story: 'Documentation of all available quick pick options and their functionality.',
       },
     },
   },

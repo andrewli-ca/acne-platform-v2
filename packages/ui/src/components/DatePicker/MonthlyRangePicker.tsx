@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { Box, Card, Group, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
-import type { DateRange } from './CustomRangePicker';
+import type { DateRange } from './types';
 
 interface MonthlyRangePickerProps {
   startDate: DateValue;

@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 import { Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
-import type { DateRange } from './CustomRangePicker';
 import { getCurrentQuarter, getPreviousQuarter, getQuarterRange } from './quarter-helpers';
+import type { DateRange } from './types';
 
 interface QuickPicksSidebarProps {
   minDate?: DateValue;

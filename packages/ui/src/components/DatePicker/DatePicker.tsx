@@ -5,19 +5,18 @@ import dayjs from 'dayjs';
 import { Button, Flex, Group, ScrollArea, SegmentedControl, Stack, Text } from '@mantine/core';
 import { type DateValue } from '@mantine/dates';
 
-import { CustomRangePicker, type DateRange } from './CustomRangePicker';
+import { CustomRangePicker } from './CustomRangePicker';
 import { DateInput } from './DateInput';
 import { MonthlyRangePicker } from './MonthlyRangePicker';
 import { QuarterlyRangePicker } from './QuarterlyRangePicker';
 import { QuickPicksSidebar } from './QuickPicksSidebar';
-
-export type RangeType = 'quarterly' | 'monthly' | 'custom';
+import type { DatePickerRangeType, DateRange } from './types';
 
 export interface DatePickerProps {
   startDate: DateValue;
   endDate: DateValue;
   maxDataHistory?: DateValue;
-  initialRangeType?: RangeType;
+  initialRangeType?: DatePickerRangeType;
   onChange?: (range: DateRange) => void;
   onApply?: (startDate: DateValue, endDate: DateValue) => void;
 }
@@ -30,7 +29,7 @@ export function DatePicker({
   onChange,
   onApply,
 }: DatePickerProps) {
-  const [rangeType, setRangeType] = useState<RangeType>(initialRangeType);
+  const [rangeType, setRangeType] = useState<DatePickerRangeType>(initialRangeType);
 
   const today = dayjs();
 
@@ -66,7 +65,7 @@ export function DatePicker({
         <Group justify="center" align="center">
           <SegmentedControl
             value={rangeType}
-            onChange={(value) => setRangeType(value as RangeType)}
+            onChange={(value) => setRangeType(value as DatePickerRangeType)}
             data={[
               { label: 'Quarterly', value: 'quarterly' },
               { label: 'Monthly', value: 'monthly' },
@@ -113,12 +112,18 @@ export function DatePicker({
           <Group gap="xs">
             <DateInput
               date={startDate}
-              onChange={(date) => handleChange({ startDate: date, endDate })}
+              onChange={(date) => {
+                handleChange({ startDate: date, endDate });
+                setRangeType('custom');
+              }}
             />
             <Text size="sm">to</Text>
             <DateInput
               date={endDate}
-              onChange={(date) => handleChange({ startDate, endDate: date })}
+              onChange={(date) => {
+                handleChange({ startDate, endDate: date });
+                setRangeType('custom');
+              }}
             />
           </Group>
           <Button onClick={handleApply}>Apply</Button>

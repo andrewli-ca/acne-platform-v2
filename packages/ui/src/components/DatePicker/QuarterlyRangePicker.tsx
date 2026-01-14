@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 import { Box, Card, Group, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
-import type { DateRange } from './CustomRangePicker';
 import { getQuarter, getQuarterEnd, getQuarterStart } from './quarter-helpers';
+import type { DateRange } from './types';
 
 interface QuarterlyRangePickerProps {
   startDate: DateValue;

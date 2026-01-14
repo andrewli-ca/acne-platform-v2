@@ -1,10 +1,7 @@
 import { Flex } from '@mantine/core';
 import { DatePicker, type DatesRangeValue, type DateValue } from '@mantine/dates';
 
-export interface DateRange {
-  startDate: DateValue;
-  endDate: DateValue;
-}
+import type { DateRange } from './types';
 
 interface CustomRangePickerProps {
   startDate: DateValue;

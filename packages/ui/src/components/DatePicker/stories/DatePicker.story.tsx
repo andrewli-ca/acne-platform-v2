@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { Box, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
-import { DatePicker, type DatePickerProps } from './DatePicker';
+import { DatePicker, type DatePickerProps } from '../DatePicker';
 
 const meta = {
   title: 'Components/DatePicker',

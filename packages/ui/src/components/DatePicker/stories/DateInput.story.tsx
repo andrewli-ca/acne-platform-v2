@@ -6,10 +6,10 @@ import dayjs from 'dayjs';
 import { Box, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
-import { DateInput, type DateInputProps } from './DateInput';
+import { DateInput, type DateInputProps } from '../DateInput';
 
 const meta = {
-  title: 'Components/DateInput',
+  title: 'Components/DatePicker/DateInput',
   component: DateInput,
   parameters: {
     layout: 'padded',

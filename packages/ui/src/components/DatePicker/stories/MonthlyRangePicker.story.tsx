@@ -6,18 +6,17 @@ import dayjs from 'dayjs';
 import { Box, Paper, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
-import type { DateRange } from './CustomRangePicker';
-import { QuarterlyRangePicker } from './QuarterlyRangePicker';
+import { MonthlyRangePicker } from '../MonthlyRangePicker';
 
 const meta = {
-  title: 'Components/DatePicker/QuarterlyRangePicker',
-  component: QuarterlyRangePicker,
+  title: 'Components/DatePicker/MonthlyRangePicker',
+  component: MonthlyRangePicker,
   parameters: {
     layout: 'padded',
     docs: {
       description: {
         component:
-          "A quarterly date range picker component that displays quarters grouped by year. Users can click on any quarter to select that quarter's date range.",
+          "A monthly date range picker component that displays months grouped by year. Users can click on any month to select that month's date range.",
       },
     },
   },
@@ -44,13 +43,13 @@ const meta = {
       description: 'Callback when date range changes',
     },
   },
-} satisfies Meta<typeof QuarterlyRangePicker>;
+} satisfies Meta<typeof MonthlyRangePicker>;
 
 export default meta;
-type Story = StoryObj<typeof QuarterlyRangePicker>;
+type Story = StoryObj<typeof MonthlyRangePicker>;
 
 // Helper component to manage state
-function QuarterlyRangePickerWrapper({
+function MonthlyRangePickerWrapper({
   defaultStartDate,
   defaultEndDate,
   minDate,
@@ -68,7 +67,7 @@ function QuarterlyRangePickerWrapper({
     <Box p="xl" style={{ maxWidth: 800 }}>
       <Stack gap="md">
         <Paper p="md" withBorder style={{ minHeight: 333 }}>
-          <QuarterlyRangePicker
+          <MonthlyRangePicker
             startDate={startDate}
             endDate={endDate}
             minDate={minDate}
@@ -87,7 +86,9 @@ function QuarterlyRangePickerWrapper({
             <Text size="sm" c="dimmed">
               Start:{' '}
               {startDate
-                ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format('MMM D, YYYY')
+                ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format(
+                    'MMM D, YYYY'
+                  )
                 : 'Not selected'}
             </Text>
             <Text size="sm" c="dimmed">
@@ -108,10 +109,10 @@ export const Default: Story = {
     <Box p="xl" style={{ maxWidth: 800 }}>
       <Stack gap="md">
         <Text size="sm" c="dimmed">
-          Click on any quarter card to select that quarter's date range. The current quarter is
-          indicated with a blue dot.
+          Click on any month card to select that month's date range. The current month is indicated
+          with a blue dot.
         </Text>
-        <QuarterlyRangePickerWrapper />
+        <MonthlyRangePickerWrapper />
       </Stack>
     </Box>
   ),
@@ -119,7 +120,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'Default quarterly range picker displaying quarters grouped by year. Click any quarter to select its date range.',
+          'Default monthly range picker displaying months grouped by year. Click any month to select its date range.',
       },
     },
   },
@@ -130,11 +131,11 @@ export const WithSelection: Story = {
     <Box p="xl" style={{ maxWidth: 800 }}>
       <Stack gap="md">
         <Text size="sm" c="dimmed">
-          Quarterly range picker with a pre-selected quarter (Q1 2024).
+          Monthly range picker with a pre-selected month (January 2024).
         </Text>
-        <QuarterlyRangePickerWrapper
+        <MonthlyRangePickerWrapper
           defaultStartDate={new Date(2024, 0, 1)}
-          defaultEndDate={new Date(2024, 2, 31)}
+          defaultEndDate={new Date(2024, 0, 31)}
         />
       </Stack>
     </Box>
@@ -142,7 +143,7 @@ export const WithSelection: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Quarterly range picker with a pre-selected quarter range.',
+        story: 'Monthly range picker with a pre-selected month range.',
       },
     },
   },
@@ -150,17 +151,17 @@ export const WithSelection: Story = {
 
 export const WithMinDate: Story = {
   render: () => {
-    const oneYearAgo = new Date();
-    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
     return (
       <Box p="xl" style={{ maxWidth: 800 }}>
         <Stack gap="md">
           <Text size="sm" c="dimmed">
-            This example limits quarter selection to the past year. Quarters before one year ago are
-            disabled.
+            This example limits month selection to the past 6 months. Months before six months ago
+            are disabled.
           </Text>
-          <QuarterlyRangePickerWrapper minDate={oneYearAgo} />
+          <MonthlyRangePickerWrapper minDate={sixMonthsAgo} />
         </Stack>
       </Box>
     );
@@ -169,7 +170,7 @@ export const WithMinDate: Story = {
     docs: {
       description: {
         story:
-          'Quarterly range picker with a minimum date constraint. Quarters before the minDate are disabled.',
+          'Monthly range picker with a minimum date constraint. Months before the minDate are disabled.',
       },
     },
   },
@@ -186,10 +187,10 @@ export const Interactive: Story = {
       <Box p="xl" style={{ maxWidth: 800 }}>
         <Stack gap="md">
           <Text size="sm" c="dimmed">
-            Interactive example. Click on any quarter to see the date range update.
+            Interactive example. Click on any month to see the date range update.
           </Text>
           <Paper p="md" withBorder style={{ minHeight: 333 }}>
-            <QuarterlyRangePicker
+            <MonthlyRangePicker
               startDate={startDate}
               endDate={endDate}
               maxDate={maxDate}
@@ -207,13 +208,17 @@ export const Interactive: Story = {
               <Text size="sm" c="dimmed">
                 Start:{' '}
                 {startDate
-                  ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format('MMM D, YYYY')
+                  ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format(
+                      'MMM D, YYYY'
+                    )
                   : 'Not selected'}
               </Text>
               <Text size="sm" c="dimmed">
                 End:{' '}
                 {endDate
-                  ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format('MMM D, YYYY')
+                  ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format(
+                      'MMM D, YYYY'
+                    )
                   : 'Not selected'}
               </Text>
               {startDate && endDate && (
@@ -221,7 +226,9 @@ export const Interactive: Story = {
                   Range:{' '}
                   {Math.ceil(
                     (dayjs(endDate instanceof Date ? endDate : new Date(endDate)).valueOf() -
-                      dayjs(startDate instanceof Date ? startDate : new Date(startDate)).valueOf()) /
+                      dayjs(
+                        startDate instanceof Date ? startDate : new Date(startDate)
+                      ).valueOf()) /
                       (1000 * 60 * 60 * 24)
                   )}{' '}
                   days
@@ -236,7 +243,7 @@ export const Interactive: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Interactive example demonstrating quarter selection and date range updates.',
+        story: 'Interactive example demonstrating month selection and date range updates.',
       },
     },
   },

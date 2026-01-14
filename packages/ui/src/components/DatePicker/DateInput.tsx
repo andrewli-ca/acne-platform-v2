@@ -236,7 +236,7 @@ export function DateInput({ date, onChange }: DateInputProps) {
         onFocus={handleDayFocus}
         placeholder="DD"
         style={{
-          width: 50,
+          width: 36,
           border: 'none',
           paddingLeft: 0,
           paddingRight: 0,
@@ -245,7 +245,7 @@ export function DateInput({ date, onChange }: DateInputProps) {
           input: {
             border: 'none',
             boxShadow: 'none',
-            padding: 'var(--mantine-spacing-xs)',
+            padding: '0px',
             textAlign: 'center',
           },
         }}
@@ -262,7 +262,7 @@ export function DateInput({ date, onChange }: DateInputProps) {
         onFocus={handleMonthFocus}
         placeholder="MM"
         style={{
-          width: 50,
+          width: 28,
           border: 'none',
           paddingLeft: 0,
           paddingRight: 0,
@@ -271,14 +271,14 @@ export function DateInput({ date, onChange }: DateInputProps) {
           input: {
             border: 'none',
             boxShadow: 'none',
-            padding: 'var(--mantine-spacing-xs)',
+            padding: '0px',
             textAlign: 'center',
           },
         }}
         size="sm"
         variant="unstyled"
       />
-      <Text size="sm" c="dimmed" px={4}>
+      <Text size="sm" c="dimmed">
         /
       </Text>
       <TextInput
@@ -288,7 +288,7 @@ export function DateInput({ date, onChange }: DateInputProps) {
         onFocus={handleYearFocus}
         placeholder="YYYY"
         style={{
-          width: 70,
+          width: 64,
           border: 'none',
           paddingLeft: 0,
           paddingRight: 0,
@@ -297,7 +297,7 @@ export function DateInput({ date, onChange }: DateInputProps) {
           input: {
             border: 'none',
             boxShadow: 'none',
-            padding: 'var(--mantine-spacing-xs)',
+            padding: '0px',
             textAlign: 'center',
           },
         }}
