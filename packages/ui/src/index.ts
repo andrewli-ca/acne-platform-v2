@@ -17,12 +17,10 @@ export { InfiniteScrollSentinel } from './components/InfiniteScrollSentinel';
 export type { InfiniteScrollSentinelProps } from './components/InfiniteScrollSentinel';
 export { StatCard } from './components/StatCard';
 export type { StatCardProps } from './components/StatCard';
+export { TableCard } from './components/TableCard';
+export type { TableCardProps } from './components/TableCard';
 export { ThemeSwitcher } from './components/ThemeSwitcher';
 export type { ThemeSwitcherProps } from './components/ThemeSwitcher';
-
-// Hooks
-export { useInfiniteScroll } from './hooks/useInfiniteScroll';
-export type { UseInfiniteScrollOptions } from './hooks/useInfiniteScroll';
 
 // Hooks
 export { useInfiniteScroll } from './hooks/useInfiniteScroll';

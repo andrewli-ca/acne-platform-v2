@@ -4,7 +4,18 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
 import type { Transaction } from '@acme/api';
-import { Badge, Box, Button, DataDialog, Flex, Stack, Table, Text, Title } from '@acme/ui';
+import {
+  Badge,
+  Box,
+  Button,
+  DataDialog,
+  Flex,
+  Stack,
+  Table,
+  TableCard,
+  Text,
+  Title,
+} from '@acme/ui';
 
 import { TableSkeleton } from '@/components/TableSkeleton';
 import { transactionsQueryOptions } from '@/queries/transactions';
@@ -43,42 +54,44 @@ function TransactionsContent() {
 
   return (
     <>
-      <Table.ScrollContainer minWidth={800}>
-        <Table striped highlightOnHover>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Date</Table.Th>
-              <Table.Th>Recipient</Table.Th>
-              <Table.Th>Amount</Table.Th>
-              <Table.Th>Status</Table.Th>
-              <Table.Th>Actions</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {transactions.map((transaction) => (
-              <Table.Tr key={transaction.id}>
-                <Table.Td>{transaction.date}</Table.Td>
-                <Table.Td>{transaction.recipient}</Table.Td>
-                <Table.Td>{formatCurrency(transaction.amount)}</Table.Td>
-                <Table.Td>
-                  <Badge color={getStatusColor(transaction.status)} variant="light">
-                    {transaction.status}
-                  </Badge>
-                </Table.Td>
-                <Table.Td>
-                  <Button
-                    variant="subtle"
-                    size="xs"
-                    onClick={() => setSelectedTransaction(transaction)}
-                  >
-                    View
-                  </Button>
-                </Table.Td>
+      <TableCard>
+        <Table.ScrollContainer minWidth={800}>
+          <Table striped highlightOnHover>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Date</Table.Th>
+                <Table.Th>Recipient</Table.Th>
+                <Table.Th>Amount</Table.Th>
+                <Table.Th>Status</Table.Th>
+                <Table.Th>Actions</Table.Th>
               </Table.Tr>
-            ))}
-          </Table.Tbody>
-        </Table>
-      </Table.ScrollContainer>
+            </Table.Thead>
+            <Table.Tbody>
+              {transactions.map((transaction) => (
+                <Table.Tr key={transaction.id}>
+                  <Table.Td>{transaction.date}</Table.Td>
+                  <Table.Td>{transaction.recipient}</Table.Td>
+                  <Table.Td>{formatCurrency(transaction.amount)}</Table.Td>
+                  <Table.Td>
+                    <Badge color={getStatusColor(transaction.status)} variant="light">
+                      {transaction.status}
+                    </Badge>
+                  </Table.Td>
+                  <Table.Td>
+                    <Button
+                      variant="subtle"
+                      size="xs"
+                      onClick={() => setSelectedTransaction(transaction)}
+                    >
+                      View
+                    </Button>
+                  </Table.Td>
+                </Table.Tr>
+              ))}
+            </Table.Tbody>
+          </Table>
+        </Table.ScrollContainer>
+      </TableCard>
 
       <DataDialog
         open={!!selectedTransaction}
