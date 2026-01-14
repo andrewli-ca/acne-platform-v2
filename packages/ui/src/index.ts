@@ -7,6 +7,8 @@ export type { ThemeProviderProps } from './ThemeProvider';
 // Components
 export { DataDialog } from './components/DataDialog';
 export type { DataDialogProps } from './components/DataDialog';
+export { DatePicker } from './components/DatePicker';
+export type { DatePickerProps } from './components/DatePicker';
 export { Drawer } from './components/Drawer/Drawer';
 export type { DrawerProps } from './components/Drawer/Drawer';
 export { FeatureCard } from './components/FeatureCard';
@@ -15,6 +17,12 @@ export { InfiniteScrollSentinel } from './components/InfiniteScrollSentinel';
 export type { InfiniteScrollSentinelProps } from './components/InfiniteScrollSentinel';
 export { StatCard } from './components/StatCard';
 export type { StatCardProps } from './components/StatCard';
+export { ThemeSwitcher } from './components/ThemeSwitcher';
+export type { ThemeSwitcherProps } from './components/ThemeSwitcher';
+
+// Hooks
+export { useInfiniteScroll } from './hooks/useInfiniteScroll';
+export type { UseInfiniteScrollOptions } from './hooks/useInfiniteScroll';
 
 // Hooks
 export { useInfiniteScroll } from './hooks/useInfiniteScroll';

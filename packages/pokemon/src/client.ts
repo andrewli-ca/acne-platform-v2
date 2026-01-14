@@ -1,6 +1,12 @@
 import { BaseRestClient } from '@acme/http-client';
 
-import type { Berry, BerryListResponse, PaginatedPokemonResponse, Pokemon, PokemonListResponse } from './types';
+import type {
+  Berry,
+  BerryListResponse,
+  PaginatedPokemonResponse,
+  Pokemon,
+  PokemonListResponse,
+} from './types';
 
 /**
  * PokeAPI Client
@@ -21,7 +27,7 @@ export class PokemonClient extends BaseRestClient {
 
     // Fetch detailed data for each Pokemon
     const pokemonPromises = listData.results.map((p) =>
-      this.get<Pokemon>(p.url.replace('https://pokeapi.co/api/v2', '')),
+      this.get<Pokemon>(p.url.replace('https://pokeapi.co/api/v2', ''))
     );
 
     return Promise.all(pokemonPromises);
@@ -35,16 +41,16 @@ export class PokemonClient extends BaseRestClient {
    */
   async getPokemonsPaginated(
     limit: number = 20,
-    offset: number = 0,
+    offset: number = 0
   ): Promise<PaginatedPokemonResponse> {
     // Fetch list of Pokemon URLs with pagination
     const listData = await this.get<PokemonListResponse>(
-      `/pokemon?limit=${limit}&offset=${offset}`,
+      `/pokemon?limit=${limit}&offset=${offset}`
     );
 
     // Fetch detailed data for each Pokemon
     const pokemonPromises = listData.results.map((p) =>
-      this.get<Pokemon>(p.url.replace('https://pokeapi.co/api/v2', '')),
+      this.get<Pokemon>(p.url.replace('https://pokeapi.co/api/v2', ''))
     );
 
     const pokemon = await Promise.all(pokemonPromises);
@@ -84,7 +90,7 @@ export class PokemonClient extends BaseRestClient {
 
     // Fetch detailed data for each berry
     const berryPromises = listData.results.map((b) =>
-      this.get<Berry>(b.url.replace('https://pokeapi.co/api/v2', '')),
+      this.get<Berry>(b.url.replace('https://pokeapi.co/api/v2', ''))
     );
 
     return Promise.all(berryPromises);

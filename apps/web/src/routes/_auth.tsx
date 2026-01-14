@@ -31,8 +31,9 @@ function AuthLayout() {
           style={{
             flex: 1,
             padding: '1.5rem',
-            background: 'var(--mantine-color-gray-0)',
+            // background: 'var(--mantine-color-gray-0)',
           }}
+          bg="gray.1"
         >
           <Outlet />
         </Box>

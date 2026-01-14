@@ -1,11 +1,13 @@
 ---
-description: 'Always use Mantine props for colors, spacing, and layout instead of CSS modules'
+description: "Always use Mantine props for colors, spacing, and layout instead of CSS modules"
 alwaysApply: true
 ---
 
 # Mantine Props Over CSS
 
 ## CRITICAL: Use Mantine Component Props First
+
+## Always reference the Mantine Docs when making choices @Docs: https://mantine.dev/llms.txt
 
 ### 1. Text Colors - Use the `color` Prop
 

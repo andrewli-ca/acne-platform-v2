@@ -1,10 +1,12 @@
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import './geist-fonts';
 
-import { MantineProvider, type MantineThemeOverride } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { mantineTheme } from './theme';
 
+import { MantineProvider, type MantineThemeOverride } from '@mantine/core';
+
+import { mantineTheme } from './theme';
 
 export interface ThemeProviderProps {
   children: ReactNode;

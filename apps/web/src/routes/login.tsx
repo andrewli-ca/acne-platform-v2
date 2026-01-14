@@ -45,11 +45,7 @@ function LoginPage() {
   };
 
   return (
-    <Flex
-      align="center"
-      justify="center"
-      style={{ minHeight: '100vh', background: 'var(--mantine-color-gray-1)' }}
-    >
+    <Flex align="center" justify="center" bg="blue">
       <Box style={{ width: '100%', maxWidth: '400px', padding: '1rem' }}>
         <Card shadow="md" padding="xl" radius="md" withBorder>
           <Stack gap="md">

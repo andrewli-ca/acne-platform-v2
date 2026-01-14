@@ -1,5 +1,5 @@
 import { mockClient } from '@acme/api';
-import { Avatar, Box, Group, Text } from '@acme/ui';
+import { Avatar, Box, Group, Text, ThemeSwitcher } from '@acme/ui';
 
 import styles from './Topbar.module.css';
 
@@ -16,6 +16,7 @@ export function Topbar() {
           <Text size="sm" fw={500}>
             {user?.name || 'User'}
           </Text>
+          <ThemeSwitcher />
         </Group>
       </Group>
     </Box>
