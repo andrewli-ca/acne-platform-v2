@@ -243,6 +243,7 @@ export function isValidDate(value: unknown): boolean {
   if (value == null) return false;
   if (value instanceof Date) return !isNaN(value.getTime());
   if (typeof value === 'string' || typeof value === 'number') {
+    if (typeof value === 'string' && value === '') return false;
     return dayjs(value).isValid();
   }
   return false;
