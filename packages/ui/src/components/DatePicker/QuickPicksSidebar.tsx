@@ -1,11 +1,23 @@
 import { useCallback, useMemo } from 'react';
 
-import dayjs from 'dayjs';
-
 import { Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
-import { getCurrentQuarter, getPreviousQuarter, getQuarterRange } from './quarter-helpers';
+import {
+  addMonths,
+  addYears,
+  endOfMonth,
+  endOfYear,
+  getCurrentDate,
+  getCurrentQuarter,
+  getPreviousQuarter,
+  getQuarterRange,
+  isAfter,
+  isBefore,
+  startOfMonth,
+  startOfYear,
+} from '@acme/utils/date';
+
 import type { DatePickerRangeType, DateRange } from './types';
 
 interface QuickPicksSidebarProps {
@@ -15,7 +27,7 @@ interface QuickPicksSidebarProps {
 }
 
 export function QuickPicksSidebar({ minDate, maxDate, onChange }: QuickPicksSidebarProps) {
-  const today = dayjs();
+  const today = getCurrentDate();
 
   // Quick pick handlers
   const handleQuickPick = useCallback(
@@ -27,36 +39,40 @@ export function QuickPicksSidebar({ minDate, maxDate, onChange }: QuickPicksSide
 
       switch (type) {
         case 'thisMonth':
-          newStartDate = today.startOf('month').toDate();
-          newEndDate = today.endOf('month').toDate();
+          newStartDate = startOfMonth(today);
+          newEndDate = endOfMonth(today);
           newRangeType = 'monthly';
           break;
-        case 'lastMonth':
-          newStartDate = today.subtract(1, 'month').startOf('month').toDate();
-          newEndDate = today.subtract(1, 'month').endOf('month').toDate();
+        case 'lastMonth': {
+          const lastMonth = addMonths(today, -1);
+          newStartDate = startOfMonth(lastMonth);
+          newEndDate = endOfMonth(lastMonth);
           newRangeType = 'monthly';
           break;
+        }
         case 'thisQuarter': {
           const currentQ = getCurrentQuarter(today);
-          newStartDate = currentQ.start.toDate();
+          newStartDate = currentQ.start;
           // Always use the full quarter end date, not clamped to today
-          newEndDate = currentQ.end.toDate();
+          newEndDate = currentQ.end;
           newRangeType = 'quarterly';
           isThisQuarter = true;
           break;
         }
         case 'lastQuarter': {
           const prevQ = getPreviousQuarter(today);
-          newStartDate = prevQ.start.toDate();
-          newEndDate = prevQ.end.toDate();
+          newStartDate = prevQ.start;
+          newEndDate = prevQ.end;
           newRangeType = 'quarterly';
           break;
         }
-        case 'lastYear':
-          newStartDate = today.subtract(1, 'year').startOf('year').toDate();
-          newEndDate = today.subtract(1, 'year').endOf('year').toDate();
+        case 'lastYear': {
+          const lastYear = addYears(today, -1);
+          newStartDate = startOfYear(lastYear);
+          newEndDate = endOfYear(lastYear);
           newRangeType = 'quarterly';
           break;
+        }
         case 'allTime': {
           const minDateObj = minDate
             ? minDate instanceof Date
@@ -78,8 +94,8 @@ export function QuickPicksSidebar({ minDate, maxDate, onChange }: QuickPicksSide
             const quarter = parseInt(quarterMatch[1], 10) - 1;
             const year = parseInt(quarterMatch[2], 10);
             const quarterRange = getQuarterRange(year, quarter);
-            newStartDate = quarterRange.start.toDate();
-            newEndDate = quarterRange.end.toDate();
+            newStartDate = quarterRange.start;
+            newEndDate = quarterRange.end;
             newRangeType = 'quarterly';
           }
           break;
@@ -90,14 +106,14 @@ export function QuickPicksSidebar({ minDate, maxDate, onChange }: QuickPicksSide
         // Ensure dates are within bounds
         if (minDate) {
           const minDateObj = minDate instanceof Date ? minDate : minDate ? new Date(minDate) : null;
-          if (minDateObj && dayjs(newStartDate).isBefore(minDateObj)) {
+          if (minDateObj && isBefore(newStartDate, minDateObj)) {
             newStartDate = minDateObj;
           }
         }
         const maxDateObj = maxDate instanceof Date ? maxDate : maxDate ? new Date(maxDate) : null;
         // Don't clamp end date for "thisQuarter" - always use full quarter end date
         // For other cases, clamp if end date is after maxDate
-        if (maxDateObj && dayjs(newEndDate).isAfter(maxDateObj) && !isThisQuarter) {
+        if (maxDateObj && isAfter(newEndDate, maxDateObj) && !isThisQuarter) {
           newEndDate = maxDateObj;
         }
 

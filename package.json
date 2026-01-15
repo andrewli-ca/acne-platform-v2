@@ -13,6 +13,20 @@
     "storybook": "pnpm --filter @acme/ui storybook",
     "storybook:build": "pnpm --filter @acme/ui storybook:build"
   },
+  "pnpm": {
+    "overrides": {
+      "dayjs": "^1.11.19",
+      "react": "^19.2.0",
+      "react-dom": "^19.2.0",
+      "@tanstack/react-query": "^5.64.1",
+      "@mantine/core": "8.3.12",
+      "@mantine/hooks": "8.3.12",
+      "@mantine/dates": "8.3.12",
+      "@mantine/charts": "8.3.12",
+      "lucide-react": "^0.469.0",
+      "typescript": "^5.9.3"
+    }
+  },
   "devDependencies": {
     "typescript": "^5.9.3"
   },

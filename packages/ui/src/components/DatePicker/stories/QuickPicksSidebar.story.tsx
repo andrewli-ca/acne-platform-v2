@@ -1,10 +1,17 @@
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import dayjs from 'dayjs';
 
 import { Box, Flex, Paper, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
+
+import {
+  DateFormat,
+  differenceInDays,
+  formatDate,
+  getCurrentDate,
+  toISOString,
+} from '@acme/utils/date';
 
 import { QuickPicksSidebar } from '../QuickPicksSidebar';
 import type { DatePickerRangeType, DateRange } from '../types';
@@ -53,8 +60,7 @@ function QuickPicksSidebarWrapper({
   const [startDate, setStartDate] = useState<DateValue>(null);
   const [endDate, setEndDate] = useState<DateValue>(null);
   const [rangeType, setRangeType] = useState<DatePickerRangeType>('custom');
-  const today = dayjs();
-  const maxDate = today.toDate();
+  const maxDate = getCurrentDate();
 
   const handleChange = (range: DateRange, newRangeType: DatePickerRangeType) => {
     setStartDate(range.startDate);
@@ -83,16 +89,18 @@ function QuickPicksSidebarWrapper({
               <Text size="sm" c="dimmed">
                 Start:{' '}
                 {startDate
-                  ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format(
-                      'MMM D, YYYY'
+                  ? formatDate(
+                      startDate instanceof Date ? startDate : new Date(startDate),
+                      DateFormat.SHORT
                     )
                   : 'Not selected'}
               </Text>
               <Text size="sm" c="dimmed">
                 End:{' '}
                 {endDate
-                  ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format(
-                      'MMM D, YYYY'
+                  ? formatDate(
+                      endDate instanceof Date ? endDate : new Date(endDate),
+                      DateFormat.SHORT
                     )
                   : 'Not selected'}
               </Text>
@@ -100,24 +108,18 @@ function QuickPicksSidebarWrapper({
                 <>
                   <Text size="xs" c="dimmed" mt="xs">
                     Range:{' '}
-                    {Math.ceil(
-                      (dayjs(endDate instanceof Date ? endDate : new Date(endDate)).valueOf() -
-                        dayjs(
-                          startDate instanceof Date ? startDate : new Date(startDate)
-                        ).valueOf()) /
-                        (1000 * 60 * 60 * 24)
+                    {differenceInDays(
+                      endDate instanceof Date ? endDate : new Date(endDate),
+                      startDate instanceof Date ? startDate : new Date(startDate)
                     )}{' '}
                     days
                   </Text>
                   <Text size="xs" c="dimmed">
                     Start:{' '}
-                    {dayjs(
-                      startDate instanceof Date ? startDate : new Date(startDate)
-                    ).toISOString()}
+                    {toISOString(startDate instanceof Date ? startDate : new Date(startDate))}
                   </Text>
                   <Text size="xs" c="dimmed">
-                    End:{' '}
-                    {dayjs(endDate instanceof Date ? endDate : new Date(endDate)).toISOString()}
+                    End: {toISOString(endDate instanceof Date ? endDate : new Date(endDate))}
                   </Text>
                 </>
               )}
@@ -177,8 +179,7 @@ export const Interactive: Story = {
     const [startDate, setStartDate] = useState<DateValue>(null);
     const [endDate, setEndDate] = useState<DateValue>(null);
     const [rangeType, setRangeType] = useState<DatePickerRangeType>('custom');
-    const today = dayjs();
-    const maxDate = today.toDate();
+    const maxDate = getCurrentDate();
 
     return (
       <Box p="xl" style={{ maxWidth: 600 }}>
@@ -207,16 +208,18 @@ export const Interactive: Story = {
                 <Text size="sm" c="dimmed">
                   Start:{' '}
                   {startDate
-                    ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format(
-                        'MMM D, YYYY'
+                    ? formatDate(
+                        startDate instanceof Date ? startDate : new Date(startDate),
+                        DateFormat.SHORT
                       )
                     : 'Not selected'}
                 </Text>
                 <Text size="sm" c="dimmed">
                   End:{' '}
                   {endDate
-                    ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format(
-                        'MMM D, YYYY'
+                    ? formatDate(
+                        endDate instanceof Date ? endDate : new Date(endDate),
+                        DateFormat.SHORT
                       )
                     : 'Not selected'}
                 </Text>
@@ -224,24 +227,18 @@ export const Interactive: Story = {
                   <>
                     <Text size="xs" c="dimmed" mt="xs">
                       Range:{' '}
-                      {Math.ceil(
-                        (dayjs(endDate instanceof Date ? endDate : new Date(endDate)).valueOf() -
-                          dayjs(
-                            startDate instanceof Date ? startDate : new Date(startDate)
-                          ).valueOf()) /
-                          (1000 * 60 * 60 * 24)
+                      {differenceInDays(
+                        endDate instanceof Date ? endDate : new Date(endDate),
+                        startDate instanceof Date ? startDate : new Date(startDate)
                       )}{' '}
                       days
                     </Text>
                     <Text size="xs" c="dimmed">
                       Start:{' '}
-                      {dayjs(
-                        startDate instanceof Date ? startDate : new Date(startDate)
-                      ).toISOString()}
+                      {toISOString(startDate instanceof Date ? startDate : new Date(startDate))}
                     </Text>
                     <Text size="xs" c="dimmed">
-                      End:{' '}
-                      {dayjs(endDate instanceof Date ? endDate : new Date(endDate)).toISOString()}
+                      End: {toISOString(endDate instanceof Date ? endDate : new Date(endDate))}
                     </Text>
                   </>
                 )}

@@ -16,6 +16,7 @@ import {
   Text,
   Title,
 } from '@acme/ui';
+import { formatCurrency } from '@acme/utils/number';
 
 import { TableSkeleton } from '@/components/TableSkeleton';
 import { transactionsQueryOptions } from '@/queries/transactions';
@@ -27,13 +28,6 @@ export const Route = createFileRoute('/_auth/transactions')({
   },
   component: TransactionsPage,
 });
-
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(amount);
-}
 
 function getStatusColor(status: Transaction['status']): string {
   switch (status) {

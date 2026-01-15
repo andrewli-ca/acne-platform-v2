@@ -1,9 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import dayjs from 'dayjs';
-
 import { Box, Text, TextInput } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
+
+import {
+  createDate,
+  getDayOfMonth,
+  getDaysInMonth,
+  getMonth,
+  getYear,
+  isValidDate,
+} from '@acme/utils/date';
 
 export interface DateInputProps {
   date: DateValue | null | undefined;
@@ -22,10 +29,9 @@ export function DateInput({ date, onChange }: DateInputProps) {
   // Initialize from date prop
   useEffect(() => {
     if (date) {
-      const d = dayjs(date);
-      setDay(d.format('D'));
-      setMonth(d.format('M'));
-      setYear(d.format('YYYY'));
+      setDay(String(getDayOfMonth(date)));
+      setMonth(String(getMonth(date) + 1)); // getMonth returns 0-11
+      setYear(String(getYear(date)));
     } else {
       setDay('');
       setMonth('');
@@ -62,12 +68,12 @@ export function DateInput({ date, onChange }: DateInputProps) {
         return;
       }
 
-      // Use raw values without padding
-      const constructedDate = dayjs(`${yearNum}-${monthNum}-${dayNum}`);
+      // Use createDate (month is 0-indexed)
+      const constructedDate = createDate(yearNum, monthNum - 1, dayNum);
 
       // Check if date is valid
-      if (constructedDate.isValid()) {
-        onChange(constructedDate.toDate());
+      if (isValidDate(constructedDate)) {
+        onChange(constructedDate);
       }
     },
     [onChange]
@@ -86,13 +92,13 @@ export function DateInput({ date, onChange }: DateInputProps) {
       return 31; // Default to 31 if invalid
     }
 
-    // Use dayjs to get the actual days in the month (handles leap years)
-    const date = dayjs(`${yearNum}-${monthNum}-1`);
-    if (!date.isValid()) {
+    // Use our getDaysInMonth helper (handles leap years)
+    const testDate = createDate(yearNum, monthNum - 1, 1);
+    if (!isValidDate(testDate)) {
       return 31; // Default to 31 if invalid date
     }
 
-    return date.daysInMonth();
+    return getDaysInMonth(testDate);
   }, []);
 
   const handleDayChange = useCallback(

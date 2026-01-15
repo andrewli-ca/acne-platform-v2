@@ -1,9 +1,21 @@
 import { useMemo } from 'react';
 
-import dayjs from 'dayjs';
-
 import { Box, Card, Group, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
+
+import {
+  createDate,
+  DateFormat,
+  endOfMonth,
+  formatDate,
+  getCurrentDate,
+  getMonth,
+  getYear,
+  isAfter,
+  isBefore,
+  isSameDay,
+  startOfMonth,
+} from '@acme/utils/date';
 
 import type { DateRange } from './types';
 
@@ -22,14 +34,14 @@ export function MonthlyRangePicker({
   maxDate,
   onChange,
 }: MonthlyRangePickerProps) {
-  const today = dayjs();
-  const currentYear = today.year();
-  const currentMonth = today.month();
+  const today = getCurrentDate();
+  const currentYear = getYear(today);
+  const currentMonth = getMonth(today);
 
   // Generate months for display
   const monthsByYear = useMemo(() => {
     const months: Array<{ year: number; month: number; label: string }> = [];
-    const startYear = minDate ? dayjs(minDate).year() : currentYear - 1;
+    const startYear = minDate ? getYear(minDate) : currentYear - 1;
     const endYear = currentYear;
 
     for (let year = endYear; year >= startYear; year--) {
@@ -37,21 +49,21 @@ export function MonthlyRangePicker({
       // For past years, show all 12 months (they've all ended)
       const endMonth = 11; // Always show all 12 months
       for (let m = endMonth; m >= 0; m--) {
-        const monthEnd = dayjs().year(year).month(m).endOf('month');
+        const monthEnd = endOfMonth(createDate(year, m, 1));
 
         // Skip if before minDate
-        if (minDate && monthEnd.isBefore(minDate)) {
+        if (minDate && isBefore(monthEnd, minDate)) {
           continue;
         }
         // Skip if after today (only for past years - current year shows all months)
-        if (year !== currentYear && monthEnd.isAfter(today)) {
+        if (year !== currentYear && isAfter(monthEnd, today)) {
           continue;
         }
 
         months.push({
           year,
           month: m,
-          label: dayjs().month(m).format('MMM'),
+          label: formatDate(createDate(year, m, 1), DateFormat.MONTH_SHORT),
         });
       }
     }
@@ -80,21 +92,22 @@ export function MonthlyRangePicker({
 
   // Handle month selection
   const handleMonthSelect = (year: number, month: number) => {
-    const monthStart = dayjs().year(year).month(month).startOf('month');
-    const monthEnd = dayjs().year(year).month(month).endOf('month');
+    const monthDate = createDate(year, month, 1);
+    const monthStart = startOfMonth(monthDate);
+    const monthEnd = endOfMonth(monthDate);
 
-    let newStartDate = monthStart.toDate();
-    let newEndDate = monthEnd.toDate();
+    let newStartDate = monthStart;
+    let newEndDate = monthEnd;
 
     // Ensure dates are within bounds
     if (minDate) {
       const minDateObj = minDate instanceof Date ? minDate : minDate ? new Date(minDate) : null;
-      if (minDateObj && dayjs(newStartDate).isBefore(minDateObj)) {
+      if (minDateObj && isBefore(newStartDate, minDateObj)) {
         newStartDate = minDateObj;
       }
     }
     const maxDateObj = maxDate instanceof Date ? maxDate : maxDate ? new Date(maxDate) : null;
-    if (maxDateObj && dayjs(newEndDate).isAfter(maxDateObj)) {
+    if (maxDateObj && isAfter(newEndDate, maxDateObj)) {
       newEndDate = maxDateObj;
     }
 
@@ -109,17 +122,16 @@ export function MonthlyRangePicker({
     if (!startDate || !endDate) {
       return false;
     }
-    const monthStart = dayjs().year(year).month(month).startOf('month');
-    const monthEnd = dayjs().year(year).month(month).endOf('month');
-    const start = dayjs(startDate);
-    const end = dayjs(endDate);
+    const monthDate = createDate(year, month, 1);
+    const monthStart = startOfMonth(monthDate);
+    const monthEnd = endOfMonth(monthDate);
     // Check if the selected range matches this month
     // Start date should be at or before month start, end date should be within or at month end
     return (
-      (start.isBefore(monthStart) || start.isSame(monthStart)) &&
-      (end.isAfter(monthEnd) ||
-        end.isSame(monthEnd) ||
-        (end.isAfter(monthStart) && end.isBefore(monthEnd)))
+      (isBefore(startDate, monthStart) || isSameDay(startDate, monthStart)) &&
+      (isAfter(endDate, monthEnd) ||
+        isSameDay(endDate, monthEnd) ||
+        (isAfter(endDate, monthStart) && isBefore(endDate, monthEnd)))
     );
   };
 
@@ -138,8 +150,9 @@ export function MonthlyRangePicker({
                 {months.map((m) => {
                   const isCurrent = isCurrentMonth(yearNum, m.month);
                   const isSelected = isMonthSelected(yearNum, m.month);
-                  const monthStart = dayjs().year(yearNum).month(m.month).startOf('month');
-                  const monthEnd = dayjs().year(yearNum).month(m.month).endOf('month');
+                  const monthDate = createDate(yearNum, m.month, 1);
+                  const monthStart = startOfMonth(monthDate);
+                  const monthEnd = endOfMonth(monthDate);
                   const minDateObj = minDate
                     ? minDate instanceof Date
                       ? minDate
@@ -148,7 +161,7 @@ export function MonthlyRangePicker({
                   // Disable if before minDate or if the month hasn't started yet (completely in the future)
                   // Allow current month to be selected even if incomplete
                   const isDisabled =
-                    (minDateObj && monthEnd.isBefore(minDateObj)) || monthStart.isAfter(today);
+                    (minDateObj && isBefore(monthEnd, minDateObj)) || isAfter(monthStart, today);
 
                   return (
                     <Card

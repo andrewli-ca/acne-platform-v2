@@ -1,0 +1,30 @@
+{
+  "name": "@acme/utils",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./date": "./src/date/index.ts",
+    "./string": "./src/string/index.ts",
+    "./number": "./src/number/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --cache",
+    "prettier": "prettier --check 'src/**/*.ts'",
+    "prettier:write": "prettier --write 'src/**/*.ts'",
+    "test": "echo 'No tests configured'",
+    "build": "echo 'No build configured'"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.19"
+  },
+  "devDependencies": {
+    "@acme/config": "workspace:*",
+    "typescript": "^5.9.3"
+  }
+}

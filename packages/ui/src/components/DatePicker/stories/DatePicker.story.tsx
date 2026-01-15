@@ -1,10 +1,17 @@
 import { useState, type ReactNode } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import dayjs from 'dayjs';
 
 import { Box, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
+
+import {
+  addYears,
+  DateFormat,
+  differenceInDays,
+  formatDate,
+  getCurrentDate,
+} from '@acme/utils/date';
 
 import { DatePicker, type DatePickerProps } from '../DatePicker';
 import type { DatePickerRangeType } from '../types';
@@ -68,7 +75,9 @@ function DatePickerWrapper({
 }) {
   const [startDate, setStartDate] = useState<DateValue>(defaultStartDate || null);
   const [endDate, setEndDate] = useState<DateValue>(defaultEndDate || null);
-  const [rangeType, setRangeType] = useState<DatePickerRangeType>(props.initialRangeType ?? 'quarterly');
+  const [rangeType, setRangeType] = useState<DatePickerRangeType>(
+    props.initialRangeType ?? 'quarterly'
+  );
 
   return (
     <Box p="xl" style={{ maxWidth: 1000 }}>
@@ -99,15 +108,19 @@ function DatePickerWrapper({
             <Text size="sm" c="dimmed">
               Start:{' '}
               {startDate
-                ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format(
-                    'MMM D, YYYY'
+                ? formatDate(
+                    startDate instanceof Date ? startDate : new Date(startDate),
+                    DateFormat.SHORT
                   )
                 : 'Not selected'}
             </Text>
             <Text size="sm" c="dimmed">
               End:{' '}
               {endDate
-                ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format('MMM D, YYYY')
+                ? formatDate(
+                    endDate instanceof Date ? endDate : new Date(endDate),
+                    DateFormat.SHORT
+                  )
                 : 'Not selected'}
             </Text>
           </Stack>
@@ -188,8 +201,7 @@ export const Custom: Story = {
 
 export const WithMaxDataHistory: Story = {
   render: () => {
-    const oneYearAgo = new Date();
-    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    const oneYearAgo = addYears(getCurrentDate(), -1);
 
     return (
       <DatePickerWrapper maxDataHistory={oneYearAgo}>
@@ -284,28 +296,27 @@ export const Interactive: Story = {
               <Text size="sm" c="dimmed">
                 Start:{' '}
                 {startDate
-                  ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format(
-                      'MMM D, YYYY'
+                  ? formatDate(
+                      startDate instanceof Date ? startDate : new Date(startDate),
+                      DateFormat.SHORT
                     )
                   : 'Not selected'}
               </Text>
               <Text size="sm" c="dimmed">
                 End:{' '}
                 {endDate
-                  ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format(
-                      'MMM D, YYYY'
+                  ? formatDate(
+                      endDate instanceof Date ? endDate : new Date(endDate),
+                      DateFormat.SHORT
                     )
                   : 'Not selected'}
               </Text>
               {startDate && endDate && (
                 <Text size="xs" c="dimmed" mt="xs">
                   Range:{' '}
-                  {Math.ceil(
-                    (dayjs(endDate instanceof Date ? endDate : new Date(endDate)).valueOf() -
-                      dayjs(
-                        startDate instanceof Date ? startDate : new Date(startDate)
-                      ).valueOf()) /
-                      (1000 * 60 * 60 * 24)
+                  {differenceInDays(
+                    endDate instanceof Date ? endDate : new Date(endDate),
+                    startDate instanceof Date ? startDate : new Date(startDate)
                   )}{' '}
                   days
                 </Text>

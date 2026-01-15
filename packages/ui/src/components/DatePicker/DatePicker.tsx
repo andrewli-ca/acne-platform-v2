@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 
-import dayjs from 'dayjs';
-
 import { Box, Button, Flex, Group, ScrollArea, SegmentedControl, Stack, Text } from '@mantine/core';
 import { type DateValue } from '@mantine/dates';
+
+import { getCurrentDate } from '@acme/utils/date';
 
 import { CustomRangePicker } from './CustomRangePicker';
 import { DateInput } from './DateInput';
@@ -33,7 +33,7 @@ export function DatePicker({
   const [startDate, setStartDate] = useState<DateValue>(initialStartDate);
   const [endDate, setEndDate] = useState<DateValue>(initialEndDate);
 
-  const today = dayjs();
+  const today = getCurrentDate();
 
   // Convert DateValue to Date for Mantine components
   const minDate = maxDataHistory
@@ -43,7 +43,7 @@ export function DatePicker({
         ? new Date(maxDataHistory)
         : undefined
     : undefined;
-  const maxDate = today.toDate();
+  const maxDate = today;
 
   const handleChange = useCallback(
     (range: DateRange, nextRangeType: DatePickerRangeType = rangeType) => {

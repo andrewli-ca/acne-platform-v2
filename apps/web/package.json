@@ -23,6 +23,7 @@
     "@acme/countries": "workspace:*",
     "@acme/pokemon": "workspace:*",
     "@acme/ui": "workspace:*",
+    "@acme/utils": "workspace:*",
     "@mantine/core": "8.3.12",
     "@mantine/hooks": "8.3.12",
     "@tanstack/react-query": "^5.64.1",

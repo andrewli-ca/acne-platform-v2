@@ -1,12 +1,25 @@
 import { useState } from 'react';
 
-import dayjs from 'dayjs';
-
 import { Button, Popover } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
+import {
+  DateFormat,
+  endOfMonth,
+  endOfYear,
+  formatDate,
+  getCurrentDate,
+  getCurrentQuarter,
+  getQuarterRange,
+  getYear,
+  isSameDay,
+  isSameMonth,
+  isSameYear,
+  startOfMonth,
+  startOfYear,
+} from '@acme/utils/date';
+
 import { DatePicker } from './DatePicker';
-import { getCurrentQuarter, getQuarterRange } from './quarter-helpers';
 import type { DatePickerRangeType, DateRange } from './types';
 
 function getQuarterLabel(year: number, quarter0: number) {
@@ -14,13 +27,14 @@ function getQuarterLabel(year: number, quarter0: number) {
 }
 
 function formatCustomRange(start: Date, end: Date) {
-  const currentYear = dayjs().year();
+  const currentYear = getYear(getCurrentDate());
   const includeYear = start.getFullYear() !== currentYear || end.getFullYear() !== currentYear;
 
-  const startFmt = includeYear ? 'MMM D YYYY' : 'MMM D';
-  const endFmt = includeYear ? 'MMM D YYYY' : 'MMM D';
+  if (includeYear) {
+    return `${formatDate(start, DateFormat.SHORT_NO_COMMA)} - ${formatDate(end, DateFormat.SHORT_NO_COMMA)}`;
+  }
 
-  return `${dayjs(start).format(startFmt)} - ${dayjs(end).format(endFmt)}`;
+  return `${formatDate(start, DateFormat.SHORT_NO_YEAR)} - ${formatDate(end, DateFormat.SHORT_NO_YEAR)}`;
 }
 
 function getButtonLabel(startDate: DateValue, endDate: DateValue, rangeType: DatePickerRangeType) {
@@ -36,36 +50,36 @@ function getButtonLabel(startDate: DateValue, endDate: DateValue, rangeType: Dat
   }
 
   if (rangeType === 'monthly') {
+    const monthStart = startOfMonth(start);
+    const monthEnd = endOfMonth(start);
     const isSingleMonth =
-      dayjs(start).isSame(dayjs(end), 'month') &&
-      dayjs(start).isSame(dayjs(start).startOf('month'), 'day') &&
-      dayjs(end).isSame(dayjs(end).endOf('month'), 'day');
+      isSameMonth(start, end) && isSameDay(start, monthStart) && isSameDay(end, monthEnd);
 
     if (isSingleMonth) {
-      return dayjs(start).format('MMM YYYY');
+      return formatDate(start, DateFormat.MONTH_YEAR);
     }
 
-    return `${dayjs(start).format('MMM YYYY')} - ${dayjs(end).format('MMM YYYY')}`;
+    return `${formatDate(start, DateFormat.MONTH_YEAR)} - ${formatDate(end, DateFormat.MONTH_YEAR)}`;
   }
 
   // rangeType === 'quarterly'
-  const startQ = getCurrentQuarter(dayjs(start));
-  const endQ = getCurrentQuarter(dayjs(end));
+  const startQ = getCurrentQuarter(start);
+  const endQ = getCurrentQuarter(end);
   const isSameQuarter = startQ.year === endQ.year && startQ.quarter === endQ.quarter;
   const expectedQuarterRange = getQuarterRange(startQ.year, startQ.quarter);
   const isSingleQuarter =
     isSameQuarter &&
-    dayjs(start).isSame(expectedQuarterRange.start, 'day') &&
-    dayjs(end).isSame(expectedQuarterRange.end, 'day');
+    isSameDay(start, expectedQuarterRange.start) &&
+    isSameDay(end, expectedQuarterRange.end);
 
   if (isSingleQuarter) {
     return getQuarterLabel(startQ.year, startQ.quarter);
   }
 
+  const yearStart = startOfYear(start);
+  const yearEnd = endOfYear(start);
   const isFullYear =
-    dayjs(start).isSame(dayjs(end), 'year') &&
-    dayjs(start).isSame(dayjs(start).startOf('year'), 'day') &&
-    dayjs(end).isSame(dayjs(end).endOf('year'), 'day');
+    isSameYear(start, end) && isSameDay(start, yearStart) && isSameDay(end, yearEnd);
 
   if (isFullYear) {
     return `${start.getFullYear()}`;

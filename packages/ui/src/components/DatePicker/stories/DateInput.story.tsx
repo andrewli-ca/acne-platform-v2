@@ -1,10 +1,11 @@
 import { useCallback, useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import dayjs from 'dayjs';
 
 import { Box, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
+
+import { DateFormat, formatDate, getDayOfMonth, getMonth, getYear } from '@acme/utils/date';
 
 import { DateInput, type DateInputProps } from '../DateInput';
 
@@ -65,7 +66,7 @@ function DateInputWrapper({
             </Text>
             <Text size="sm" c="dimmed">
               {date
-                ? dayjs(date instanceof Date ? date : new Date(date)).format('MMMM D, YYYY')
+                ? formatDate(date instanceof Date ? date : new Date(date), DateFormat.LONG)
                 : 'No date selected'}
             </Text>
             {date && (
@@ -142,7 +143,7 @@ export const Interactive: Story = {
               </Text>
               <Text size="sm" c="dimmed">
                 {date
-                  ? dayjs(date instanceof Date ? date : new Date(date)).format('MMMM D, YYYY')
+                  ? formatDate(date instanceof Date ? date : new Date(date), DateFormat.LONG)
                   : 'No date selected'}
               </Text>
               {date && (
@@ -151,9 +152,9 @@ export const Interactive: Story = {
                     ISO: {(date instanceof Date ? date : new Date(date)).toISOString()}
                   </Text>
                   <Text size="xs" c="dimmed">
-                    Day: {dayjs(date instanceof Date ? date : new Date(date)).format('D')} | Month:{' '}
-                    {dayjs(date instanceof Date ? date : new Date(date)).format('M')} | Year:{' '}
-                    {dayjs(date instanceof Date ? date : new Date(date)).format('YYYY')}
+                    Day: {getDayOfMonth(date instanceof Date ? date : new Date(date))} | Month:{' '}
+                    {getMonth(date instanceof Date ? date : new Date(date)) + 1} | Year:{' '}
+                    {getYear(date instanceof Date ? date : new Date(date))}
                   </Text>
                 </>
               )}
