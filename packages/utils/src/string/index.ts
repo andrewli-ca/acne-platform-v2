@@ -1,5 +1,5 @@
 /**
- * @acne/utils - String Utilities
+ * @acme/utils - String Utilities
  *
  * A collection of string manipulation utilities organized by category.
  * All functions are tree-shakeable and vendor-agnostic.
@@ -13,7 +13,7 @@
  *   slugify,
  *   isBlank,
  *   escapeHtml
- * } from '@acne/utils';
+ * } from '@acme/utils/string';
  *
  * // Case conversion
  * capitalize('hello');              // "Hello"

@@ -6,7 +6,7 @@
  *
  * @example
  * ```ts
- * import { getQuarter, getQuarterRange, getCurrentQuarter } from '@acne/utils';
+ * import { getQuarter, getQuarterRange, getCurrentQuarter } from '@acme/utils';
  *
  * getQuarter(new Date());              // 0-3 (Q1-Q4)
  * getQuarterRange(2026, 0);            // { start: Date, end: Date }

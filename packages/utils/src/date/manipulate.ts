@@ -6,7 +6,7 @@
  *
  * @example
  * ```ts
- * import { addDays, startOfMonth } from '@acne/utils';
+ * import { addDays, startOfMonth } from '@acme/utils';
  *
  * const nextWeek = addDays(new Date(), 7);
  * const monthStart = startOfMonth(new Date());
@@ -246,7 +246,9 @@ export function getDaysInMonth(date: DateInput): number {
  * ```
  */
 export function createDate(year: number, month: number, day: number): Date {
-  return dayjs().year(year).month(month).date(day).startOf('day').toDate();
+  return dayjs(new Date(year, month, day))
+    .startOf('day')
+    .toDate();
 }
 
 // =============================================================================

@@ -52,9 +52,18 @@ export const DateFormat = {
 export type DateFormat = (typeof DateFormat)[keyof typeof DateFormat];
 
 /**
- * Internal mapping to dayjs format strings.
- * NOT exported - this is an implementation detail.
- * @internal
+ * Mapping of DateFormat keys to their underlying dayjs format strings.
+ *
+ * This constant is exported for advanced use cases where direct access to format
+ * strings is needed. For most cases, prefer using the `formatDate()` function
+ * with `DateFormat` enum values instead.
+ *
+ * @example
+ * ```ts
+ * import { FORMAT_STRINGS, DateFormat } from '@acme/utils/date';
+ *
+ * const formatString = FORMAT_STRINGS[DateFormat.SHORT]; // "MMM D, YYYY"
+ * ```
  */
 export const FORMAT_STRINGS: Record<DateFormat, string> = {
   [DateFormat.SHORT]: 'MMM D, YYYY',

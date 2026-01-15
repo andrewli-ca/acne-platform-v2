@@ -6,7 +6,7 @@
  *
  * @example
  * ```ts
- * import { isToday, isBefore, differenceInDays } from '@acne/utils';
+ * import { isToday, isBefore, differenceInDays } from '@acme/utils';
  *
  * isToday(new Date());                        // true
  * isBefore(startDate, endDate);               // true/false

@@ -3,6 +3,7 @@
  */
 export function truncate(str: string, length: number, suffix = '...'): string {
   if (!str || str.length <= length) return str;
+  if (length <= suffix.length) return str.slice(0, length);
   return str.slice(0, length - suffix.length) + suffix;
 }
 
@@ -23,7 +24,8 @@ export function padString(
   position: 'start' | 'end' = 'start'
 ): string {
   if (str.length >= length) return str;
-  const padding = char.repeat(length - str.length);
+  const padLength = length - str.length;
+  const padding = char.repeat(Math.ceil(padLength / char.length)).slice(0, padLength);
   return position === 'start' ? padding + str : str + padding;
 }
 

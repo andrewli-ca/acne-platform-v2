@@ -1,5 +1,5 @@
 /**
- * @acne/utils - Number Utilities
+ * @acme/utils - Number Utilities
  *
  * Number formatting utilities using the Intl API for locale-aware formatting.
  * All functions are vendor-agnostic and use native JavaScript APIs.
@@ -12,7 +12,7 @@
  *   formatPercent,
  *   formatCompact,
  *   formatFileSize
- * } from '@acne/utils';
+ * } from '@acme/utils';
  *
  * // Currency
  * formatCurrency(1234.56);                    // "$1,234.56"

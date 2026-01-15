@@ -1,12 +1,12 @@
 /**
- * @acne/utils - Public API
+ * @acme/utils - Public API
  *
  * Utility functions for dates, strings, numbers, and more.
  * All utilities use native JavaScript APIs where possible - implementations are abstracted.
  *
  * @example
  * ```ts
- * import { formatDate, DateFormat, capitalize, slugify, formatCurrency } from '@acne/utils';
+ * import { formatDate, DateFormat, capitalize, slugify, formatCurrency } from '@acme/utils';
  *
  * formatDate(new Date(), DateFormat.SHORT);  // "Jan 14, 2026"
  * capitalize('hello');                        // "Hello"

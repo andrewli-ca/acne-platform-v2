@@ -192,11 +192,19 @@ export function formatOrdinal(value: number, locale = 'en-US'): string {
  * ```
  */
 export function formatFileSize(bytes: number, decimals = 1): string {
+  // Input validation
+  if (!Number.isFinite(bytes)) {
+    throw new RangeError('bytes must be a finite number');
+  }
+  if (bytes < 0) {
+    throw new RangeError('bytes must be non-negative');
+  }
   if (bytes === 0) return '0 Bytes';
+  if (bytes < 1) return '<1 Byte';
 
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), sizes.length - 1);
   const value = bytes / Math.pow(k, i);
 
   return `${value.toFixed(decimals)} ${sizes[i]}`;

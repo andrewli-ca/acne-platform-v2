@@ -1,5 +1,5 @@
 /**
- * @acne/utils - Date Utilities
+ * @acme/utils - Date Utilities
  *
  * A vendor-agnostic date utility library. The underlying implementation (dayjs)
  * is not exposed - all functions use native Date objects at the boundaries.
@@ -14,7 +14,7 @@
  *   addDays,
  *   isToday,
  *   getCurrentQuarter
- * } from '@acne/utils';
+ * } from '@acme/utils';
  *
  * // Formatting
  * formatDate(new Date(), DateFormat.SHORT);  // "Jan 14, 2026"

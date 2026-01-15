@@ -6,7 +6,7 @@
  *
  * @example
  * ```ts
- * import { formatDate, DateFormat } from '@acne/utils';
+ * import { formatDate, DateFormat } from '@acme/utils';
  *
  * formatDate(new Date(), DateFormat.SHORT); // "Jan 14, 2026"
  * ```
