@@ -22,6 +22,19 @@ export default [
         'error',
         { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
       ],
+      // Enforce subfolder imports for @acme/utils (better tree-shaking)
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@acme/utils',
+              message:
+                'Import from specific subfolders instead: @acme/utils/date, @acme/utils/string, @acme/utils/number',
+            },
+          ],
+        },
+      ],
     },
   },
   {

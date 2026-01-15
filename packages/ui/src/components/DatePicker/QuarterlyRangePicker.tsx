@@ -1,11 +1,19 @@
 import { useMemo } from 'react';
 
-import dayjs from 'dayjs';
-
 import { Box, Card, Group, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
 
-import { getQuarter, getQuarterEnd, getQuarterStart } from './quarter-helpers';
+import {
+  getCurrentDate,
+  getQuarter,
+  getQuarterEnd,
+  getQuarterStart,
+  getYear,
+  isAfter,
+  isBefore,
+  isSameDay,
+} from '@acme/utils/date';
+
 import type { DateRange } from './types';
 
 interface QuarterlyRangePickerProps {
@@ -23,14 +31,14 @@ export function QuarterlyRangePicker({
   maxDate,
   onChange,
 }: QuarterlyRangePickerProps) {
-  const today = dayjs();
-  const currentYear = today.year();
+  const today = getCurrentDate();
+  const currentYear = getYear(today);
   const currentQuarter = getQuarter(today);
 
   // Generate quarters for display
   const quartersByYear = useMemo(() => {
     const quarters: Array<{ year: number; quarter: number; label: string }> = [];
-    const startYear = minDate ? dayjs(minDate).year() : currentYear - 2;
+    const startYear = minDate ? getYear(minDate) : currentYear - 2;
     const endYear = currentYear;
 
     for (let year = endYear; year >= startYear; year--) {
@@ -40,11 +48,11 @@ export function QuarterlyRangePicker({
         const quarterEnd = getQuarterEnd(year, q);
 
         // Skip if before minDate
-        if (minDate && quarterEnd.isBefore(minDate)) {
+        if (minDate && isBefore(quarterEnd, minDate)) {
           continue;
         }
         // Skip if after today (only for past years - current year shows all quarters)
-        if (year !== currentYear && quarterEnd.isAfter(today)) {
+        if (year !== currentYear && isAfter(quarterEnd, today)) {
           continue;
         }
 
@@ -83,18 +91,18 @@ export function QuarterlyRangePicker({
     const quarterStart = getQuarterStart(year, quarter);
     const quarterEnd = getQuarterEnd(year, quarter);
 
-    let newStartDate = quarterStart.toDate();
-    let newEndDate = quarterEnd.toDate();
+    let newStartDate = quarterStart;
+    let newEndDate = quarterEnd;
 
     // Ensure dates are within bounds
     if (minDate) {
       const minDateObj = minDate instanceof Date ? minDate : minDate ? new Date(minDate) : null;
-      if (minDateObj && dayjs(newStartDate).isBefore(minDateObj)) {
+      if (minDateObj && isBefore(newStartDate, minDateObj)) {
         newStartDate = minDateObj;
       }
     }
     const maxDateObj = maxDate instanceof Date ? maxDate : maxDate ? new Date(maxDate) : null;
-    if (maxDateObj && dayjs(newEndDate).isAfter(maxDateObj)) {
+    if (maxDateObj && isAfter(newEndDate, maxDateObj)) {
       newEndDate = maxDateObj;
     }
 
@@ -111,15 +119,13 @@ export function QuarterlyRangePicker({
     }
     const quarterStart = getQuarterStart(year, quarter);
     const quarterEnd = getQuarterEnd(year, quarter);
-    const start = dayjs(startDate);
-    const end = dayjs(endDate);
     // Check if the selected range matches this quarter
     // Start date should be at or before quarter start, end date should be within or at quarter end
     return (
-      (start.isBefore(quarterStart) || start.isSame(quarterStart)) &&
-      (end.isAfter(quarterEnd) ||
-        end.isSame(quarterEnd) ||
-        (end.isAfter(quarterStart) && end.isBefore(quarterEnd)))
+      (isBefore(startDate, quarterStart) || isSameDay(startDate, quarterStart)) &&
+      (isAfter(endDate, quarterEnd) ||
+        isSameDay(endDate, quarterEnd) ||
+        (isAfter(endDate, quarterStart) && isBefore(endDate, quarterEnd)))
     );
   };
 
@@ -147,7 +153,7 @@ export function QuarterlyRangePicker({
                 // Disable if before minDate or if the quarter hasn't started yet (completely in the future)
                 // Allow current quarter to be selected even if incomplete
                 const isDisabled =
-                  (minDateObj && quarterEnd.isBefore(minDateObj)) || quarterStart.isAfter(today);
+                  (minDateObj && isBefore(quarterEnd, minDateObj)) || isAfter(quarterStart, today);
 
                 return (
                   <Card

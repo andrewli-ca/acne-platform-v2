@@ -7,7 +7,8 @@
       "@acme/api": ["./packages/api/src/index.ts"],
       "@acme/countries": ["./packages/countries/src/index.ts"],
       "@acme/pokemon": ["./packages/pokemon/src/index.ts"],
-      "@acme/http-client": ["./packages/http-client/src/index.ts"]
+      "@acme/http-client": ["./packages/http-client/src/index.ts"],
+      "@acme/utils": ["./packages/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "**/dist/**"]

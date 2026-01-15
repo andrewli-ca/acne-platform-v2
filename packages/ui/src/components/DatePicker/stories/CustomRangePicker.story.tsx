@@ -1,10 +1,17 @@
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import dayjs from 'dayjs';
 
 import { Box, Paper, Stack, Text } from '@mantine/core';
 import type { DateValue } from '@mantine/dates';
+
+import {
+  addYears,
+  DateFormat,
+  differenceInDays,
+  formatDate,
+  getCurrentDate,
+} from '@acme/utils/date';
 
 import { CustomRangePicker } from '../CustomRangePicker';
 import type { DateRange } from '../types';
@@ -61,8 +68,7 @@ function CustomRangePickerWrapper({
 }) {
   const [startDate, setStartDate] = useState<DateValue>(defaultStartDate || null);
   const [endDate, setEndDate] = useState<DateValue>(defaultEndDate || null);
-  const today = dayjs();
-  const maxDate = today.toDate();
+  const maxDate = getCurrentDate();
 
   const handleChange = (range: DateRange) => {
     setStartDate(range.startDate);
@@ -89,24 +95,27 @@ function CustomRangePickerWrapper({
             <Text size="sm" c="dimmed">
               Start:{' '}
               {startDate
-                ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format(
-                    'MMM D, YYYY'
+                ? formatDate(
+                    startDate instanceof Date ? startDate : new Date(startDate),
+                    DateFormat.SHORT
                   )
                 : 'Not selected'}
             </Text>
             <Text size="sm" c="dimmed">
               End:{' '}
               {endDate
-                ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format('MMM D, YYYY')
+                ? formatDate(
+                    endDate instanceof Date ? endDate : new Date(endDate),
+                    DateFormat.SHORT
+                  )
                 : 'Not selected'}
             </Text>
             {startDate && endDate && (
               <Text size="xs" c="dimmed" mt="xs">
                 Range:{' '}
-                {Math.ceil(
-                  (dayjs(endDate instanceof Date ? endDate : new Date(endDate)).valueOf() -
-                    dayjs(startDate instanceof Date ? startDate : new Date(startDate)).valueOf()) /
-                    (1000 * 60 * 60 * 24)
+                {differenceInDays(
+                  endDate instanceof Date ? endDate : new Date(endDate),
+                  startDate instanceof Date ? startDate : new Date(startDate)
                 )}{' '}
                 days
               </Text>
@@ -165,7 +174,7 @@ export const WithSelection: Story = {
 
 export const WithMinDate: Story = {
   render: () => {
-    const oneYearAgo = dayjs().subtract(1, 'year').toDate();
+    const oneYearAgo = addYears(getCurrentDate(), -1);
 
     return (
       <Box p="xl" style={{ maxWidth: 1000 }}>
@@ -217,8 +226,7 @@ export const Interactive: Story = {
   render: () => {
     const [startDate, setStartDate] = useState<DateValue>(null);
     const [endDate, setEndDate] = useState<DateValue>(null);
-    const today = dayjs();
-    const maxDate = today.toDate();
+    const maxDate = getCurrentDate();
 
     const handleChange = (range: DateRange) => {
       setStartDate(range.startDate);
@@ -248,28 +256,27 @@ export const Interactive: Story = {
               <Text size="sm" c="dimmed">
                 Start:{' '}
                 {startDate
-                  ? dayjs(startDate instanceof Date ? startDate : new Date(startDate)).format(
-                      'MMM D, YYYY'
+                  ? formatDate(
+                      startDate instanceof Date ? startDate : new Date(startDate),
+                      DateFormat.SHORT
                     )
                   : 'Not selected'}
               </Text>
               <Text size="sm" c="dimmed">
                 End:{' '}
                 {endDate
-                  ? dayjs(endDate instanceof Date ? endDate : new Date(endDate)).format(
-                      'MMM D, YYYY'
+                  ? formatDate(
+                      endDate instanceof Date ? endDate : new Date(endDate),
+                      DateFormat.SHORT
                     )
                   : 'Not selected'}
               </Text>
               {startDate && endDate && (
                 <Text size="xs" c="dimmed" mt="xs">
                   Range:{' '}
-                  {Math.ceil(
-                    (dayjs(endDate instanceof Date ? endDate : new Date(endDate)).valueOf() -
-                      dayjs(
-                        startDate instanceof Date ? startDate : new Date(startDate)
-                      ).valueOf()) /
-                      (1000 * 60 * 60 * 24)
+                  {differenceInDays(
+                    endDate instanceof Date ? endDate : new Date(endDate),
+                    startDate instanceof Date ? startDate : new Date(startDate)
                   )}{' '}
                   days
                 </Text>
